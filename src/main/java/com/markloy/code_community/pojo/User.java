@@ -1,18 +1,19 @@
 package com.markloy.code_community.pojo;
 
 public class User {
-    private String id;
+    private Integer id;
     private String accountId;
     private String loginName;
     private String token;
     private Long gmtCreate;
     private Long gmtModify;
+    private String bio;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -56,6 +57,14 @@ public class User {
         this.gmtModify = gmtModify;
     }
 
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -65,6 +74,7 @@ public class User {
                 ", token='" + token + '\'' +
                 ", gmtCreate=" + gmtCreate +
                 ", gmtModify=" + gmtModify +
+                ", bio='" + bio + '\'' +
                 '}';
     }
 }

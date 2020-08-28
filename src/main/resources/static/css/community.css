@@ -1,0 +1,13 @@
+body {
+    background-color: #efefef;
+}
+
+.main {
+    margin: 30px 50px;
+    background-color: white;
+}
+
+#form-submit {
+    float: right;
+    margin-bottom: 40px;
+}
