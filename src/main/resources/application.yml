@@ -1,3 +1,14 @@
-
-
-
+#配置GitHub登录的app信息
+github:
+  client:
+    id: Iv1.608c3ae1ace91189
+    secret: b209f8d0f8ec98da73bf58adf497a89ea6c99e0a
+  redirect:
+    uri: http://localhost:8080/callBack
+#配置数据库连接
+spring:
+  datasource:
+    url: jdbc:h2:~/community
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 123456
