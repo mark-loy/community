@@ -15,3 +15,8 @@ spring:
 #关闭thymeleaf页面缓存
   thymeleaf:
     cache: false
+#mybatis配置
+mybatis:
+  configuration:
+    #开启驼峰标识
+    map-underscore-to-camel-case: true

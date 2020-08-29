@@ -1,6 +1,5 @@
 package com.markloy.code_community.provider;
 
-import com.alibaba.fastjson.JSON;
 import com.markloy.code_community.dto.AccessTokenDTO;
 import com.markloy.code_community.dto.GithubUser;
 import okhttp3.*;

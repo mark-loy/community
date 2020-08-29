@@ -7,20 +7,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserMapper {
 
-    @Insert("insert into user(account_id,login_name,token,gmt_create,gmt_modify) " +
-            "values(#{accountId},#{loginName},#{token},#{gmtCreate},#{gmtModify})")
+    @Insert("insert into user(account_id,login_name,token,gmt_create,gmt_modify, avatar_url) " +
+            "values(#{accountId},#{loginName},#{token},#{gmtCreate},#{gmtModify}, #{avatarUrl})")
     void addUser(User user);
 
     @Select("select * from user where token=#{token}")
-    @Results(
-        value = {
-            @Result(id = true, property = "id", column = "id"),
-            @Result(property = "accountId", column = "account_id"),
-            @Result(property = "loginName", column = "login_name"),
-            @Result(property = "token", column = "token"),
-            @Result(property = "gmtCreate", column = "gmt_create"),
-            @Result(property = "gmtModify", column = "gmt_modify")
-        }
-    )
-    User findByToken(@Param("token") String token);
+    User findByToken(String token);
+
+    @Select("select * from user where id=#{id}")
+    User findById(Integer id);
 }
