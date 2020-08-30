@@ -1,6 +1,5 @@
 package com.markloy.code_community.dto;
 
-import jdk.nashorn.internal.ir.IfNode;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -36,41 +35,43 @@ public class PageDTO {
         }
 
         this.currentPage = currentPage;
-        //控制输入的页数，不能小于1，或大于总页数
-        if (currentPage < 1) {
-            this.currentPage = 1;
-        }
-
-        if (currentPage > this.totalPage) {
+        if (this.currentPage > this.totalPage) {
             this.currentPage = this.totalPage;
         }
 
-        //判断是否显示上一页
-        this.showPrevious = this.currentPage > 1;
-
-        //判断是否显示下一页
-        this.showNext = this.currentPage != totalPage;
-
-        pageCount.add(this.currentPage);
-        //往pageCount中添加数字按钮
-        for (int i=1; i <= 3 ; i++) {
-
-            if (this.currentPage + i <= totalPage) {
-                pageCount.add(this.currentPage + i);
-            }
-
-            if (this.currentPage - i >= 1) {
-                pageCount.add(0,this.currentPage - i);
-            }
+        //控制输入的页数，不能小于1，或大于总页数
+        if (this.currentPage < 1) {
+            this.currentPage = 1;
         }
 
-        //查看数字按钮中是否包含首页
-        this.showFirst = ! pageCount.contains(1);
+        if (this.totalPage > 1) {
+            pageCount.add(this.currentPage);
+            //往pageCount中添加数字按钮
+            for (int i = 1; i <= 3; i++) {
 
-        //查看数字按钮中是否包含尾页
-        this.showEnd = ! pageCount.contains(totalPage);
+                if (this.currentPage + i <= totalPage) {
+                    pageCount.add(this.currentPage + i);
+                }
+
+                if (this.currentPage - i >= 1) {
+                    pageCount.add(0, this.currentPage - i);
+                }
+            }
+            //判断是否显示上一页
+            this.showPrevious = this.currentPage > 1;
+
+            //判断是否显示下一页
+            this.showNext = this.currentPage != totalPage;
+
+            //查看数字按钮中是否包含首页
+            this.showFirst = !pageCount.contains(1);
+
+            //查看数字按钮中是否包含尾页
+            this.showEnd = !pageCount.contains(totalPage);
+        }
+
+
     }
-
 
 
 }
