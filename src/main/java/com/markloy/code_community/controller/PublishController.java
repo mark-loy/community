@@ -1,7 +1,6 @@
 package com.markloy.code_community.controller;
 
 import com.markloy.code_community.dto.QuestionDTO;
-import com.markloy.code_community.mapper.QuestionMapper;
 import com.markloy.code_community.pojo.Question;
 import com.markloy.code_community.pojo.User;
 import com.markloy.code_community.service.QuestionService;
@@ -20,6 +19,15 @@ public class PublishController {
 
     @Autowired
     private QuestionService qs;
+
+    @GetMapping("/publish")
+    public String publish(HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return  "redirect:/";
+        }
+        return "publish";
+    }
 
     @GetMapping("/publish/{id}")
     public String edit(@PathVariable("id") Integer id,

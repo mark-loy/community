@@ -2,7 +2,6 @@ package com.markloy.code_community.controller;
 
 import com.markloy.code_community.dto.AccessTokenDTO;
 import com.markloy.code_community.dto.GithubUser;
-import com.markloy.code_community.mapper.UserMapper;
 import com.markloy.code_community.pojo.User;
 import com.markloy.code_community.provider.GithubProvider;
 import com.markloy.code_community.service.UserService;

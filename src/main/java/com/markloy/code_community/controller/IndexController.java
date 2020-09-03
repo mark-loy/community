@@ -19,7 +19,7 @@ public class IndexController {
     public String index(
             @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
             @RequestParam(value = "size", defaultValue = "3") Integer size,
-            HttpServletRequest request, Model model) {
+            Model model) {
         //当前记录数
         int count = (currentPage - 1)*size;
         //获取列表信息

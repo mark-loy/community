@@ -20,3 +20,7 @@ mybatis:
   configuration:
     #开启驼峰标识
     map-underscore-to-camel-case: true
+  #配置mapper.xml配置文件的位置
+  mapper-locations: classpath:mapper/*.xml
+  #配置别名包
+  type-aliases-package: com.markloy.code_community.pojo
