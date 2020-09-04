@@ -22,15 +22,12 @@ public class ProfileController {
     public String profile(@PathVariable("active") String active,
                           @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
                           @RequestParam(value = "size", defaultValue = "3") Integer size,
-                          HttpServletRequest request,
-                          Model model) {
-
+                          HttpServletRequest request, Model model) {
         //从session中获取user对象
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             return "redirect:/";
         }
-
         if ("question".equals(active)) {
             model.addAttribute("selector", "question");
             model.addAttribute("title", "我的问题");
@@ -38,7 +35,6 @@ public class ProfileController {
             model.addAttribute("selector", "reply");
             model.addAttribute("title", "最新回复");
         }
-
         //当前记录数
         int count = (currentPage - 1)*size;
         //获取列表信息

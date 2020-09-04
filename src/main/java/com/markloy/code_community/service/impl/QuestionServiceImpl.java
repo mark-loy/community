@@ -2,6 +2,9 @@ package com.markloy.code_community.service.impl;
 
 import com.markloy.code_community.dto.PageDTO;
 import com.markloy.code_community.dto.QuestionDTO;
+import com.markloy.code_community.exception.CustomizeException;
+import com.markloy.code_community.enums.CustomizeErrorCode;
+import com.markloy.code_community.mapper.QuestionExtMapper;
 import com.markloy.code_community.mapper.QuestionMapper;
 import com.markloy.code_community.mapper.UserMapper;
 import com.markloy.code_community.pojo.Question;
@@ -23,12 +26,15 @@ public class QuestionServiceImpl implements QuestionService {
     private QuestionMapper qm;
 
     @Autowired
+    private QuestionExtMapper qem;
+
+    @Autowired
     private UserMapper um;
 
     @Override
     public PageDTO findAll(Integer currentPage, Integer count, Integer size) {
         //查询所有问题
-        List<Question> question = qm.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(count, size));
+        List<Question> question = qm.selectByExampleWithBLOBsWithRowbounds(new QuestionExample(), new RowBounds(count, size));
         List<QuestionDTO> questionDTO = new ArrayList<>();
         for (Question que : question) {
             QuestionDTO dto = new QuestionDTO();
@@ -47,13 +53,13 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public PageDTO findByUserId(Integer userId, Integer currentPage, Integer count, Integer size) {
+    public PageDTO findByUserId(Long userId, Integer currentPage, Integer count, Integer size) {
         List<QuestionDTO> questionDTO = new ArrayList<>();
         //查询所有问题
         QuestionExample questionExample = new QuestionExample();
         questionExample.createCriteria()
                 .andCreatorEqualTo(userId);
-        List<Question> question = qm.selectByExampleWithRowbounds(questionExample, new RowBounds(count, size));
+        List<Question> question = qm.selectByExampleWithBLOBsWithRowbounds(questionExample, new RowBounds(count, size));
         for (Question que : question) {
             QuestionDTO dto = new QuestionDTO();
             //通过关联的creator查询user的用户信息
@@ -74,8 +80,11 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public QuestionDTO findById(Integer id) {
+    public QuestionDTO findById(Long id) {
         Question question = qm.selectByPrimaryKey(id);
+        if (question == null) {
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         User user = um.selectByPrimaryKey(question.getCreator());
         QuestionDTO dto = new QuestionDTO();
         BeanUtils.copyProperties(question, dto);
@@ -98,10 +107,16 @@ public class QuestionServiceImpl implements QuestionService {
             que.setTitle(question.getTitle());
             que.setDescription(question.getDescription());
             que.setTag(question.getTag());
-            QuestionExample questionExample = new QuestionExample();
-            questionExample.createCriteria()
-                    .andIdEqualTo(question.getId());
-            qm.updateByPrimaryKeySelective(que, questionExample);
+            que.setId(question.getId());
+            qm.updateByPrimaryKeySelective(que);
         }
+    }
+
+    @Override
+    public int incViewCount(Long id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        return qem.incViewCount(question);
     }
 }

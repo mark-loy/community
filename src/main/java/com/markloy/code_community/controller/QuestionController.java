@@ -15,9 +15,11 @@ public class QuestionController {
     private QuestionService qs;
 
     @GetMapping("/question/{id}")
-    public String question(@PathVariable("id") Integer id, Model model) {
+    public String question(@PathVariable("id") Long id, Model model) {
         QuestionDTO dto = qs.findById(id);
         model.addAttribute("question", dto);
+        //增加浏览数
+        qs.incViewCount(id);
         return "question";
     }
 

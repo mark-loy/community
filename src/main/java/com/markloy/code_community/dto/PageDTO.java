@@ -44,7 +44,7 @@ public class PageDTO {
             this.currentPage = 1;
         }
 
-        if (this.totalPage > 1) {
+        if (this.totalPage > 0) {
             pageCount.add(this.currentPage);
             //往pageCount中添加数字按钮
             for (int i = 1; i <= 3; i++) {

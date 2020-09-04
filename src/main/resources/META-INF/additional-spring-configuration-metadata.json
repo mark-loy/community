@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "logging.level:com.markloy.code_community.mapper",
+      "type": "java.lang.String",
+      "description": "Description for logging.level:com.markloy.code_community.mapper."
+  }
+] }

@@ -9,9 +9,11 @@ public interface QuestionService {
     PageDTO findAll(Integer currentPage, Integer count, Integer size);
 
 
-    PageDTO findByUserId(Integer userId, Integer currentPage, Integer count, Integer size);
+    PageDTO findByUserId(Long userId, Integer currentPage, Integer count, Integer size);
 
-    QuestionDTO findById(Integer id);
+    QuestionDTO findById(Long id);
 
     void createOrUpdate(Question question);
+
+    int incViewCount(Long id);
 }

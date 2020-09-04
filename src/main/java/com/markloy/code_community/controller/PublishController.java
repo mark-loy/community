@@ -30,7 +30,7 @@ public class PublishController {
     }
 
     @GetMapping("/publish/{id}")
-    public String edit(@PathVariable("id") Integer id,
+    public String edit(@PathVariable("id") Long id,
                        HttpServletRequest request, Model model) {
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
@@ -47,7 +47,7 @@ public class PublishController {
     }
 
     @PostMapping("/publish")
-    public String doPublish(Integer id, String title, String description, String tag,
+    public String doPublish(Long id, String title, String description, String tag,
                             HttpServletRequest request, Model model) {
 
         User user = (User) request.getSession().getAttribute("user");

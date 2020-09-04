@@ -22,7 +22,7 @@
             <p>
                 作者 <span th:text="${question.user.getLoginName()}"></span> |
                 发布时间 <span th:text="${#dates.format(question.getGmtCreate(), 'yyyy-MM-dd HH:mm')}"></span> |
-                浏览数 <span th:text="${question.getCommentCount()}"></span>
+                浏览数 <span th:text="${question.getViewCount()}"></span>
             </p>
             <hr>
             <span th:text="${question.getDescription()}"></span>

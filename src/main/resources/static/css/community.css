@@ -24,3 +24,7 @@ body {
     font-size: 13px;
     color: #999;
 }
+
+.error-style {
+    margin: 50px;
+}

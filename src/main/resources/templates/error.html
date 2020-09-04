@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>码客社区</title>
+
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/css/community.css">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!--头部-->
+<div th:replace="component :: navbar"></div>
+
+<!--内容-->
+<div class="jumbotron error-style">
+    <h1><span th:text="${code}"></span>出错啦！！！</h1>
+    <p th:text="${message}"></p>
+    <p><a class="btn btn-primary btn-lg" th:href="@{/}" role="button">返回首页</a></p>
+</div>
+
+</body>
+</html>
