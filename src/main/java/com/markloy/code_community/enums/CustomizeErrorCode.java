@@ -1,11 +1,11 @@
 package com.markloy.code_community.enums;
 
 public enum CustomizeErrorCode implements IErrorCode {
-    NO_LOGIN(2001, "用户未登录"),
+    NO_LOGIN(2001, "用户未登录,请先登录"),
     QUESTION_NOT_FOUND(2002, "查找的问题不存在"),
     SYS_ERROR(2003, "系统异常"),
-    PARAM_EXCEPTION(2004,"参数异常"),
-    COMMENT_NOT_FOUND(2005, "查找的回复不存在");
+    PARAM_ERROR(2004,"参数异常"),
+    COMMENT_NOT_FOUND(2005, "查找的评论不存在");
 
     @Override
     public Integer getCode() {

@@ -22,7 +22,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     ModelAndView handleControllerException(HttpServletRequest request, HttpServletResponse response,
                                            Throwable ex, Model model) throws IOException {
         ResultDTO resultDTO;
-        if ("application/json".equals(request.getContentType())) {
+        if (request.getContentType().contains("application/json")) {
             //api请求
             if (ex instanceof CustomizeException) {
                 resultDTO = ResultDTO.errorResult((CustomizeException) ex);
@@ -35,13 +35,14 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
             PrintWriter writer = response.getWriter();
             writer.write(JSON.toJSONString(resultDTO));
             return null;
+        } else {
+            //自定义异常（业务异常）
+            if (ex instanceof CustomizeException) {
+                model.addAttribute("code", ((CustomizeException) ex).getCode());
+                model.addAttribute("message", ex.getMessage());
+            }
+            return new ModelAndView("error");
         }
-        //自定义异常（业务异常）
-        if (ex instanceof CustomizeException) {
-            model.addAttribute("code", ((CustomizeException) ex).getCode());
-            model.addAttribute("message", ex.getMessage());
-        }
-        return new ModelAndView("error");
     }
 
 }

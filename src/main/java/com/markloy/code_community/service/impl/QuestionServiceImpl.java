@@ -99,7 +99,7 @@ public class QuestionServiceImpl implements QuestionService {
             //新增
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModify(question.getGmtCreate());
-            qm.insert(question);
+            qm.insertSelective(question);
         } else {
             //修改
             Question que = new Question();

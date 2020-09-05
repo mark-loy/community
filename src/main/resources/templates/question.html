@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/css/community.css">
-    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/jquery-3.5.1.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/community.js"></script>
 </head>
 <body>
 <!--头部-->
@@ -18,18 +19,67 @@
 <div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <h3 th:text="${question.getTitle()}"></h3>
-            <p>
-                作者 <span th:text="${question.user.getLoginName()}"></span> |
-                发布时间 <span th:text="${#dates.format(question.getGmtCreate(), 'yyyy-MM-dd HH:mm')}"></span> |
-                浏览数 <span th:text="${question.getViewCount()}"></span>
-            </p>
-            <hr>
-            <span th:text="${question.getDescription()}"></span>
-            <hr>
-            <p th:if="${session.user!=null and session.user.getId()==question.getUser().getId()}">
-                <a th:href="@{'/publish/'+${question.getId()}}" class="community-link"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>编辑</a>
-            </p>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h3 th:text="${question.getTitle()}"></h3>
+                <p>
+                    作者 <span th:text="${question.user.getLoginName()}"></span> |
+                    发布时间 <span th:text="${#dates.format(question.getGmtCreate(), 'yyyy-MM-dd HH:mm')}"></span> |
+                    浏览数 <span th:text="${question.getViewCount()}"></span>
+                </p>
+                <hr>
+                <span th:text="${question.getDescription()}"></span>
+                <hr>
+                <p th:if="${session.user!=null and session.user.getId()==question.getUser().getId()}">
+                    <a th:href="@{'/publish/'+${question.getId()}}" class="community-link"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>编辑</a>
+                </p>
+            </div>
+            <!--回复列表-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h3 class="comment-count"><span th:text="${commentList.size()}"></span>个评论</h3>
+                <hr class="comment-sp">
+                <div class="comment" th:each="comment : ${commentList}">
+                    <div class="media" >
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object img-rounded" th:src="${comment.user.getAvatarUrl()}">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h5 class="media-heading" >
+                                <span th:text="${comment.user.getLoginName()}"></span>
+                            </h5>
+                            <p class="comment-answer" th:text="${comment.getContent()}"></p>
+                            <p class="comment-menu">
+                                <span class="glyphicon glyphicon-hand-right icon "></span>
+                                <span class="glyphicon glyphicon-comment icon"></span>
+                                <span class="comment-date" th:text="${#dates.format(comment.getGmtCreate(), 'yyyy-MM-dd HH:ss')}"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!--回复内容-->
+                <div th:if="${session.user == null}">
+                    <a href="https://github.com/login/oauth/authorize?client_id=Iv1.608c3ae1ace91189&scope=user&state=1">登录</a>
+                    后发表评论
+                </div>
+                <div th:if="${session.user != null}">
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object img-rounded" th:src="${session.user.getAvatarUrl()}">
+                            </a>
+                        </div>
+                        <div class="media-body comment-name" >
+                            <h4 class="media-heading" >
+                                <span th:text="${session.user.getLoginName()}"></span>
+                            </h4>
+                        </div>
+                    </div>
+                    <input id="comment-parentId" type="hidden" th:value="${question.getId()}">
+                    <textarea id="comment-content" class="form-control comment-content" rows="6"></textarea>
+                    <button onclick="commentSubmit()" type="button" class="btn btn-sm btn-success comment-btn">回复</button>
+                </div>
+            </div>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <h3>发起人</h3>
@@ -52,4 +102,5 @@
     </div>
 </div>
 </body>
+
 </html>

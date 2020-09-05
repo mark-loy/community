@@ -28,3 +28,50 @@ body {
 .error-style {
     margin: 50px;
 }
+
+.comment {
+    border-bottom: 1px solid #f5f5f5;
+    margin-top: 10px;
+}
+
+.comment-sp {
+    margin: 10px 0;
+}
+
+.comment-name {
+    padding-top: 12px;
+}
+
+.comment-content {
+    margin: 15px 0;
+}
+
+.comment-btn {
+    float: right;
+    margin-bottom: 15px;
+}
+
+.comment-answer {
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.comment-menu {
+    margin-bottom: 5px;
+    color: #999999;
+    font-size: 16px;
+}
+
+.comment-menu .icon {
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.comment-menu .icon:hover {
+    color: #499ef3;
+}
+
+.comment-date {
+    font-size: 14px;
+    float: right;
+}
