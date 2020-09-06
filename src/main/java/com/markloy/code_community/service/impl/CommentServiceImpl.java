@@ -13,7 +13,6 @@ import com.markloy.code_community.pojo.CommentExample;
 import com.markloy.code_community.pojo.Question;
 import com.markloy.code_community.pojo.User;
 import com.markloy.code_community.service.CommentService;
-import com.markloy.code_community.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,9 +65,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentListDTO> findById(Long id) {
+    public List<CommentListDTO> findById(Long id, CommentType questionType) {
         CommentExample commentExample = new CommentExample();
-        commentExample.createCriteria().andParentIdEqualTo(id).andTypeEqualTo(CommentType.QUESTION_TYPE.getType());
+        commentExample.createCriteria().andParentIdEqualTo(id).andTypeEqualTo(questionType.getType());
         List<Comment> commentList = cm.selectByExample(commentExample);
         List<CommentListDTO> listDTOS = new ArrayList<>();
         for (Comment comment : commentList) {
