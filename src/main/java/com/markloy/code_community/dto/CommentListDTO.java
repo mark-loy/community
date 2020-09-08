@@ -15,4 +15,5 @@ public class CommentListDTO {
     private Long gmtCreate;
     private Long gmtModified;
     private User user;
+    private long childCommentCount;
 }

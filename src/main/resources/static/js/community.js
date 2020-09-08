@@ -49,7 +49,7 @@ function commentSubmit() {
 
 /*二级评论回复提交*/
 function subCommentSubmit(id) {
-    let content = $('#sub-comment-content-'+id).val()
+    let content = $('#sub-comment-content-' + id).val()
     const type = 1 //1.评论回复
     if (content === "") {
         alert("评论内容不能为空")
@@ -60,43 +60,91 @@ function subCommentSubmit(id) {
 
 /*二级评论展开查询*/
 function subComment(id) {
-    debugger
     //属性自动添加和移除
     let toggleClass = $('#collapse' + id).toggleClass('in');
     if (toggleClass[0].className.search('in') > 0) {
         //查询评论的回复列表
-        $.get("/comment/" + id,
-            function (data) {
+        $.get("/comment/" + id, function (data) {
                 if (data.code === 200) {
                     let item = []
-                    $.each(data.data, function (i) {
+                    $.each(data.data, function (i, comment) {
                         item.push('<div class="media">' +
                             '<div class="media-left">' +
-                            '<a href="#"><img class="media-object img-rounded" src='+data.data[i].user.avatarUrl+'>' +
+                            '<a href="#"><img class="media-object img-rounded" src=' + comment.user.avatarUrl + '>' +
                             '</a>' +
                             '</div>' +
                             '<div class="media-body">' +
                             '<h5 class="media-heading">' +
-                            '<span>'+data.data[i].user.loginName+'</span>' +
+                            '<span>' + comment.user.loginName + '</span>' +
                             '</h5>' +
-                            '<p class="comment-answer">'+data.data[i].content+'</p>' +
+                            '<p class="comment-answer">' + comment.content + '</p>' +
                             '<p class="comment-menu">' +
                             '<span class="glyphicon glyphicon-hand-right icon "></span>' +
-                            '<span class="comment-date">'+timestampToTime(data.data[i].gmtCreate)+'</span>' +
+                            '<span class="comment-date">' + timestampToTime(comment.gmtCreate) + '</span>' +
                             '</div>' +
                             '</div>' +
                             '</div>')
                     })
-                    $('#comment-list'+id).html(item)
+                    $('#comment-list' + id).html(item)
                     //二级评论展开状态
                     $('#' + id).addClass('active')
+                } else {
+                    alert(data.result)
                 }
             }
         );
     } else {
         $('#' + id).removeClass('active')
     }
+}
 
+/*显示标签层*/
+function showTag(id) {
+    const isActive = $("li[id^='tag-title-']").hasClass("active")
+    if (!isActive) {
+        $('#tag-title-'+id).addClass("active")
+    }
+    $('#label-tag').show()
+}
+
+/*切换一级标签*/
+function tabParentTag(id) {
+    const tagId = id.split("-")[2]
+    $.get("/tabTag/"+tagId, function (data) {
+        let tagContent = []
+        if (data.code === 200) {
+            //请求成功
+            $.each(data.data.childTag, function (index, tag) {
+                tagContent.push(
+                    '<span class="publish-tag-span">' +
+                    '<span onclick="selectedTag(this.id)" id='+tag.id+' ' +
+                    'class="label label-info label-item">' +
+                    '<span class="glyphicon glyphicon-tags"></span>' +
+                    '<span id="tag-content-'+tag.id+'" class="label-content">'+tag.tagName+'</span>' +
+                    '</span>' +
+                    '</span>'
+                )
+            })
+            $('#publish-tag-p').html(tagContent)
+            /*移除之前选择的标签样式*/
+            $("li[id^='tag-title-']").removeClass("active")
+            /*给当前选择的标签添加样式*/
+            $('#tag-title-'+tagId).addClass("active")
+        }
+    })
+
+}
+
+/*获取标签值
+* 获取span标签值使用text()方法
+* */
+function selectedTag(id) {
+    let tag = $('#tag-content-'+id).text()
+    let inputTag = $('#tag').val();
+    if (inputTag !== "") {
+        tag = inputTag + "," + tag
+    }
+    $('#tag').val(tag)
 }
 
 

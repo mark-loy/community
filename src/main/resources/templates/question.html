@@ -21,6 +21,7 @@
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <!--问题内容展示-->
                 <h3 th:text="${question.getTitle()}"></h3>
                 <p>
                     作者 <span th:text="${question.user.getLoginName()}"></span> |
@@ -29,10 +30,18 @@
                 </p>
                 <hr>
                 <span th:text="${question.getDescription()}"></span>
-                <hr>
+                <!--标签展示-->
+                <p class="label-style">
+                    <span th:each="label : ${question.getTag().split(',')}" class="label label-info label-item">
+                        <span class="glyphicon glyphicon-tags"></span>
+                        <span class="label-content" th:text="${label}"></span>
+                    </span>
+                </p>
+                <!--编辑功能-->
                 <p th:if="${session.user!=null and session.user.getId()==question.getUser().getId()}">
-                    <a th:href="@{'/publish/'+${question.getId()}}" class="community-link"><span
-                            class="glyphicon glyphicon-edit" aria-hidden="true"></span>编辑</a>
+                    <a th:href="@{'/publish/'+${question.getId()}}" class="community-link">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>编辑
+                    </a>
                 </p>
             </div>
             <!--回复列表-->
@@ -54,7 +63,7 @@
                             <p class="comment-menu">
                                 <span class="glyphicon glyphicon-hand-right icon "></span>
                                 <span class="glyphicon glyphicon-comment icon" th:id="${comment.getId()}"
-                                      onclick="subComment(this.id)"></span>
+                                      onclick="subComment(this.id)" th:text="${comment.getChildCommentCount()}"></span>
                                 <span class="comment-date"
                                       th:text="${#dates.format(comment.getGmtCreate(), 'yyyy-MM-dd HH:ss')}"></span>
                             </p>
@@ -115,6 +124,11 @@
             </div>
             <hr>
             <h3>相关问题</h3>
+            <ul class="related-ul">
+                <li th:each="item : ${related}" class="related-li">
+                    <a class="related-a" th:href="@{'/question/'+${item.getId()}}" th:text="${item.getTitle()}"></a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

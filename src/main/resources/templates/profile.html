@@ -28,12 +28,20 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${item.getTitle()}"></h4>
+                    <h4 class="media-heading">
+                        <a th:href="@{'/question/'+${item.getId()}}" th:text="${item.getTitle()}"></a>
+                    </h4>
                     <p>
                         <span th:text="${item.getLikeCount()}"></span> 人点赞 •
                         <span th:text="${item.getCommentCount()}"></span> 个回复 •
                         <span th:text="${item.getViewCount()}"></span>次浏览 •
-                        <span th:text="${#dates.format(item.getGmtCreate(), 'yyyy-MM-dd HH:mm')}"></span></p>
+                        <span th:text="${#dates.format(item.getGmtCreate(), 'yyyy-MM-dd HH:mm')}"></span>
+                        <p>
+                            <a th:href="@{'/publish/'+${item.getId()}}" class="community-link">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>编辑
+                            </a>
+                        </p>
+                    </p>
                 </div>
             </div>
 
@@ -45,11 +53,13 @@
                         </a>
                     </li>
                     <li th:if="${pages.showPrevious}">
-                        <a th:href="@{'/profile/'+${selector}(currentPage=${pages.getCurrentPage()-1})}" aria-label="Previous">
+                        <a th:href="@{'/profile/'+${selector}(currentPage=${pages.getCurrentPage()-1})}"
+                           aria-label="Previous">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
-                    <li th:each="item : ${pages.getPageCount()}" th:class="${pages.getCurrentPage() == item ? 'active':''}">
+                    <li th:each="item : ${pages.getPageCount()}"
+                        th:class="${pages.getCurrentPage() == item ? 'active':''}">
                         <a th:href="@{'/profile/'+${selector}(currentPage=${item})}" th:text="${item}"></a>
                     </li>
                     <li th:if="${pages.showNext}">
@@ -68,10 +78,12 @@
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <div class="list-group profile-menu">
-                <a th:href="@{/profile/question}" th:class="${title=='我的问题' ? 'list-group-item active' : 'list-group-item'}">
-                    我的问题<span class="badge">14</span>
+                <a th:href="@{/profile/question}"
+                   th:class="${title=='我的问题' ? 'list-group-item active' : 'list-group-item'}">
+                    我的问题
                 </a>
-                <a th:href="@{/profile/reply}" th:class="${title=='最新回复' ? 'list-group-item active' : 'list-group-item'}">
+                <a th:href="@{/profile/reply}"
+                   th:class="${title=='最新回复' ? 'list-group-item active' : 'list-group-item'}">
                     最新回复<span class="badge">14</span>
                 </a>
             </div>

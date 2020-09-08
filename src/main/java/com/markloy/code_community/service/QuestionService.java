@@ -4,6 +4,8 @@ import com.markloy.code_community.dto.PageDTO;
 import com.markloy.code_community.dto.QuestionDTO;
 import com.markloy.code_community.pojo.Question;
 
+import java.util.List;
+
 public interface QuestionService {
 
     PageDTO findAll(Integer currentPage, Integer count, Integer size);
@@ -16,4 +18,6 @@ public interface QuestionService {
     void createOrUpdate(Question question);
 
     int incViewCount(Long id);
+
+    List<Question> selectRelated(QuestionDTO questionDTO);
 }

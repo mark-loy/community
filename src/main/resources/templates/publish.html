@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/community.css">
     <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/community.js"></script>
 </head>
 <body>
 <!--头部-->
@@ -17,25 +18,48 @@
 <div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <h2 ><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>发起</h2>
+            <h2><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>发起</h2>
             <hr>
             <form th:action="@{/publish}" method="post">
                 <input type="hidden" name="id" th:value="${id}">
                 <div class="form-group">
                     <label for="title">问题标题（简单扼要）</label>
-                    <input name="title" th:value="${title}" type="text" class="form-control" id="title" placeholder="问题标题...">
+                    <input name="title" th:value="${title}" type="text" class="form-control" id="title"
+                           placeholder="问题标题...">
                 </div>
                 <div class="form-group">
                     <label for="description">问题补充（请参照右侧提示）</label>
-                    <textarea name="description" th:text="${description}" class="form-control" id="description" cols="30" rows="20"></textarea>
+                    <textarea name="description" th:text="${description}" class="form-control" id="description"
+                              cols="30" rows="20"></textarea>
                 </div>
-                <div class="form-group">
+                <div class="form-group publish-tag-parent">
                     <label for="tag">添加标签</label>
-                    <input name="tag" th:value="${tag}" class="form-control" id="tag" placeholder="输入标签以,分隔">
+                    <input id="tag" name="tag" th:value="${tag}" onclick="showTag(1)"
+                           autocomplete="off" class="form-control" placeholder="输入标签以,分隔">
+                    <div id="label-tag" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 publish-label-tag">
+                        <ul class="nav nav-pills">
+                            <li onclick="tabParentTag(this.id)"  th:id="${'tag-title-'+tagTile.getId()}" th:each="tagTile : ${tagList.getParentTag()}"
+                                class="publish-tag-li" role="presentation" >
+                                <a href="#" th:text="${tagTile.getTagName()}"></a>
+                            </li>
+                        </ul>
+                        <p id="publish-tag-p">
+                            <span class="publish-tag-span" th:each="tagChild : ${tagList.getChildTag()}">
+                                <span onclick="selectedTag(this.id)"
+                                      th:id="${tagChild.getId()}"
+                                      class="label label-info label-item">
+                                    <span class="glyphicon glyphicon-tags"></span>
+                                    <span th:id="${'tag-content-'+tagChild.getId()}" class="label-content"
+                                          th:text="${tagChild.getTagName()}"></span>
+                                </span>
+                            </span>
+                        </p>
+                    </div>
                 </div>
                 <input id="form-submit" type="submit" class="btn btn-success" value="发布">
             </form>
-            <span th:if="${not #strings.isEmpty(message)}" id="message" class="alert alert-warning alert-dismissible col-lg-2" role="alert">
+            <span th:if="${not #strings.isEmpty(message)}" id="message"
+                  class="alert alert-warning alert-dismissible col-lg-4" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <strong>Warning!</strong> [[${message}]]
             </span>

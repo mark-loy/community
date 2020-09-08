@@ -75,6 +75,13 @@ public class CommentServiceImpl implements CommentService {
             User user = um.selectByPrimaryKey(comment.getCreator());
             BeanUtils.copyProperties(comment, commentListDTO);
             commentListDTO.setUser(user);
+            //查询当前评论的子回复数
+            CommentExample chileExample = new CommentExample();
+            chileExample.createCriteria()
+                    .andParentIdEqualTo(comment.getId())
+                    .andTypeEqualTo(CommentType.COMMENT_TYPE.getType());
+            long childCommentCount = cm.countByExample(chileExample);
+            commentListDTO.setChildCommentCount(childCommentCount);
             listDTOS.add(commentListDTO);
         }
         return listDTOS;

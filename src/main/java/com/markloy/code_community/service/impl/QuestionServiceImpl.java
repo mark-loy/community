@@ -34,7 +34,9 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public PageDTO findAll(Integer currentPage, Integer count, Integer size) {
         //查询所有问题
-        List<Question> question = qm.selectByExampleWithBLOBsWithRowbounds(new QuestionExample(), new RowBounds(count, size));
+        QuestionExample example = new QuestionExample();
+        example.setOrderByClause("GMT_CREATE DESC");
+        List<Question> question = qm.selectByExampleWithBLOBsWithRowbounds(example, new RowBounds(count, size));
         List<QuestionDTO> questionDTO = new ArrayList<>();
         for (Question que : question) {
             QuestionDTO dto = new QuestionDTO();
@@ -57,6 +59,7 @@ public class QuestionServiceImpl implements QuestionService {
         List<QuestionDTO> questionDTO = new ArrayList<>();
         //查询所有问题
         QuestionExample questionExample = new QuestionExample();
+        questionExample.setOrderByClause("GMT_CREATE DESC");
         questionExample.createCriteria()
                 .andCreatorEqualTo(userId);
         List<Question> question = qm.selectByExampleWithBLOBsWithRowbounds(questionExample, new RowBounds(count, size));
@@ -118,5 +121,15 @@ public class QuestionServiceImpl implements QuestionService {
         question.setId(id);
         question.setViewCount(1);
         return qem.incViewCount(question);
+    }
+
+    @Override
+    public List<Question> selectRelated(QuestionDTO questionDTO) {
+        String replaceTag = questionDTO.getTag().replace(',', '|');
+        Question question = new Question();
+        BeanUtils.copyProperties(questionDTO, question);
+        question.setTag(replaceTag);
+        List<Question> related = qem.selectRelated(question);
+        return related;
     }
 }

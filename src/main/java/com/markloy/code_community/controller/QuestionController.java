@@ -3,6 +3,7 @@ package com.markloy.code_community.controller;
 import com.markloy.code_community.dto.CommentListDTO;
 import com.markloy.code_community.dto.QuestionDTO;
 import com.markloy.code_community.enums.CommentType;
+import com.markloy.code_community.pojo.Question;
 import com.markloy.code_community.service.CommentService;
 import com.markloy.code_community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,10 @@ public class QuestionController {
         //查询问题列表
         QuestionDTO questionDTO = qs.findById(id);
         model.addAttribute("question", questionDTO);
-        //增加问题浏览数
+        //相关问题查询
+        List<Question> relatedQuestion = qs.selectRelated(questionDTO);
+        model.addAttribute("related", relatedQuestion);
+        //增加问题浏览数(待完善)
         qs.incViewCount(id);
         //查询评论列表
         List<CommentListDTO> commentListDTO = cs.findById(id, CommentType.QUESTION_TYPE);
