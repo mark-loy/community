@@ -61,8 +61,8 @@ public class TagServiceImpl implements TagService {
         for (Tag tagName : tagList) {
             arrayList.add(tagName.getTagName());
         }
-        for (String s : arrayList) {
-            if (!set.contains(s)) {
+        for (String s : set) {
+            if (!arrayList.contains(s)) {
                 result = "请选择标签库中的标签或新建标签";
                 break;
             }

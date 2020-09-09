@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class PageDTO {
+public class PageDTO<T> {
     //当前页
     private int currentPage;
     //总页数
@@ -22,7 +22,7 @@ public class PageDTO {
     //最后一页按钮
     private boolean showEnd;
     //当前页的数据
-    private List<QuestionDTO> questionDTO = new ArrayList<>();
+    private List<T> generaDTO = new ArrayList<>();
 
 
     public void computer(Integer currentPage, Integer totalCount, Integer size) {

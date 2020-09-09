@@ -1,6 +1,9 @@
 package com.markloy.code_community.config;
 
+import com.markloy.code_community.enums.NotificationStatusEnum;
+import com.markloy.code_community.mapper.NotificationMapper;
 import com.markloy.code_community.mapper.UserMapper;
+import com.markloy.code_community.pojo.NotificationExample;
 import com.markloy.code_community.pojo.User;
 import com.markloy.code_community.pojo.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,9 @@ public class Interceptor implements HandlerInterceptor {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private NotificationMapper nm;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //获取浏览器cookie数组
@@ -33,6 +39,12 @@ public class Interceptor implements HandlerInterceptor {
                     if (!users.isEmpty()) {
                         //说明用户已登录,将用户存入session
                         request.getSession().setAttribute("user", users.get(0));
+                        //将该用户的未读通知数量存入session
+                        NotificationExample notificationExample = new NotificationExample();
+                        notificationExample.createCriteria()
+                                .andReceiverIdEqualTo(users.get(0).getId())
+                                .andStatusEqualTo(NotificationStatusEnum.UNREAD.getStatus());
+                        request.getSession().setAttribute("notificationCount", nm.countByExample(notificationExample));
                         break;
                     }
                 }

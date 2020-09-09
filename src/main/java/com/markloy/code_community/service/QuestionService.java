@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface QuestionService {
 
-    PageDTO findAll(Integer currentPage, Integer count, Integer size);
+    PageDTO<QuestionDTO> findAll(Integer currentPage, Integer count, Integer size);
 
 
-    PageDTO findByUserId(Long userId, Integer currentPage, Integer count, Integer size);
+    PageDTO<QuestionDTO> findByUserId(Long userId, Integer currentPage, Integer count, Integer size);
 
     QuestionDTO findById(Long id);
 

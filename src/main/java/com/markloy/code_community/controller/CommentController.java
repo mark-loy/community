@@ -34,6 +34,7 @@ public class CommentController {
         if (commentDTO == null || StringUtils.isEmpty(commentDTO.getContent())) {
             throw new CustomizeException(CustomizeErrorCode.COMMENT_CONTENT_NOT_EMPTY);
         }
+        //新增评论
         Comment comment = new Comment();
         comment.setParentId(commentDTO.getParentId());
         comment.setContent(commentDTO.getContent());

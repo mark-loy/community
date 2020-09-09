@@ -20,32 +20,52 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2 th:text="${title}"></h2>
             <hr>
-
-            <div class="media" th:each="item : ${pages.getQuestionDTO()}">
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object img-rounded" th:src="${item.getUser().getAvatarUrl()}">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">
-                        <a th:href="@{'/question/'+${item.getId()}}" th:text="${item.getTitle()}"></a>
-                    </h4>
-                    <p>
-                        <span th:text="${item.getLikeCount()}"></span> 人点赞 •
-                        <span th:text="${item.getCommentCount()}"></span> 个回复 •
-                        <span th:text="${item.getViewCount()}"></span>次浏览 •
-                        <span th:text="${#dates.format(item.getGmtCreate(), 'yyyy-MM-dd HH:mm')}"></span>
+            <div th:if="${selector == 'question'}">
+                <div class="media"  th:each="item : ${pages.getGeneraDTO()}">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-rounded" th:src="${item.getUser().getAvatarUrl()}">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <a th:href="@{'/question/'+${item.getId()}}" th:text="${item.getTitle()}"></a>
+                        </h4>
+                        <p>
+                            <span th:text="${item.getLikeCount()}"></span> 人点赞 •
+                            <span th:text="${item.getCommentCount()}"></span> 个回复 •
+                            <span th:text="${item.getViewCount()}"></span>次浏览 •
+                            <span th:text="${#dates.format(item.getGmtCreate(), 'yyyy-MM-dd HH:mm')}"></span>
                         <p>
                             <a th:href="@{'/publish/'+${item.getId()}}" class="community-link">
                                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>编辑
                             </a>
                         </p>
-                    </p>
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            <nav aria-label="Page navigation">
+            <div th:if="${selector == 'reply'}">
+                <div class="media"  th:each="item : ${pages.getGeneraDTO()}">
+                    <div class="media-body">
+                        <h5 class="media-heading">
+                            <span th:text="${item.getNotifier()}"></span>
+                            <span th:text="${item.getTypeMsg()}"></span>
+                            <a th:href="@{'/notification/'+${item.getId()}}">
+                                <span th:text="${item.getTitle()}"></span>
+                                <span class="badge profile-notify-status" th:if="${item.getStatusMsg() == '未读'}"
+                                      th:text="${item.getStatusMsg()}"></span>
+                            </a>
+                        </h5>
+                        <p>
+                            <span th:text="${#dates.format(item.getGmtCreate(), 'yyyy-MM-dd HH:ss')}"></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <nav aria-label="Page navigation" th:if="${pages != null}">
                 <ul class="pagination">
                     <li th:if="${pages.showFirst }">
                         <a th:href="@{'/profile/'+${selector}(currentPage=1)}" aria-label="Previous">
@@ -84,7 +104,7 @@
                 </a>
                 <a th:href="@{/profile/reply}"
                    th:class="${title=='最新回复' ? 'list-group-item active' : 'list-group-item'}">
-                    最新回复<span class="badge">14</span>
+                    最新回复<span class="badge" th:text="${session.notificationCount}"></span>
                 </a>
             </div>
         </div>

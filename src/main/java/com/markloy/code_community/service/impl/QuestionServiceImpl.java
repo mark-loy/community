@@ -32,7 +32,7 @@ public class QuestionServiceImpl implements QuestionService {
     private UserMapper um;
 
     @Override
-    public PageDTO findAll(Integer currentPage, Integer count, Integer size) {
+    public PageDTO<QuestionDTO> findAll(Integer currentPage, Integer count, Integer size) {
         //查询所有问题
         QuestionExample example = new QuestionExample();
         example.setOrderByClause("GMT_CREATE DESC");
@@ -47,15 +47,15 @@ public class QuestionServiceImpl implements QuestionService {
             dto.setUser(user);
             questionDTO.add(dto);
         }
-        PageDTO pageDTO = new PageDTO();
+        PageDTO<QuestionDTO> pageDTO = new PageDTO<>();
         //分页控制计算
         pageDTO.computer(currentPage, (int) qm.countByExample(new QuestionExample()), size);
-        pageDTO.setQuestionDTO(questionDTO);
+        pageDTO.setGeneraDTO(questionDTO);
         return pageDTO;
     }
 
     @Override
-    public PageDTO findByUserId(Long userId, Integer currentPage, Integer count, Integer size) {
+    public PageDTO<QuestionDTO> findByUserId(Long userId, Integer currentPage, Integer count, Integer size) {
         List<QuestionDTO> questionDTO = new ArrayList<>();
         //查询所有问题
         QuestionExample questionExample = new QuestionExample();
@@ -72,13 +72,12 @@ public class QuestionServiceImpl implements QuestionService {
             dto.setUser(user);
             questionDTO.add(dto);
         }
-        PageDTO pageDTO = new PageDTO();
+        PageDTO<QuestionDTO> pageDTO = new PageDTO<>();
         //分页控制计算
         QuestionExample questionExample1 = new QuestionExample();
-        questionExample1.createCriteria()
-                .andCreatorEqualTo(userId);
+        questionExample1.createCriteria().andCreatorEqualTo(userId);
         pageDTO.computer(currentPage, (int) qm.countByExample(questionExample1), size);
-        pageDTO.setQuestionDTO(questionDTO);
+        pageDTO.setGeneraDTO(questionDTO);
         return pageDTO;
     }
 

@@ -1,6 +1,7 @@
 package com.markloy.code_community.controller;
 
 import com.markloy.code_community.dto.PageDTO;
+import com.markloy.code_community.dto.QuestionDTO;
 import com.markloy.code_community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ public class IndexController {
         //当前记录数
         int count = (currentPage - 1)*size;
         //获取列表信息
-        PageDTO all = qs.findAll(currentPage, count, size);
+        PageDTO<QuestionDTO> all = qs.findAll(currentPage, count, size);
         model.addAttribute("pages", all);
         return "index";
     }

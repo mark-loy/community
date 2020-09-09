@@ -28,7 +28,7 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span>列表</h2>
             <hr>
-            <div class="media" th:each="item : ${pages.getQuestionDTO()}">
+            <div class="media" th:each="item : ${pages.getGeneraDTO()}">
                 <div class="media-left">
                     <a href="#">
                         <img class="media-object img-rounded" th:src="${item.getUser().getAvatarUrl()}">
@@ -38,7 +38,6 @@
                     <h4 class="media-heading" >
                         <a th:text="${item.getTitle()}" th:href="@{'/question/'+${item.getId()}}"></a>
                     </h4>
-                    <span th:text="${item.getDescription()}"></span>
                     <p>
                         <span th:text="${item.getLikeCount()}"></span> 人点赞 •
                         <span th:text="${item.getCommentCount()}"></span> 个回复 •

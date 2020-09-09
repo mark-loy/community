@@ -160,3 +160,7 @@ a {
     word-wrap: break-word;
     word-break: break-all;
 }
+
+.profile-notify-status {
+    background-color: #ff475c;
+}
