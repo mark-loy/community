@@ -28,7 +28,7 @@ public class ProfileController {
     @GetMapping("/profile/{active}")
     public String profile(@PathVariable("active") String active,
                           @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
-                          @RequestParam(value = "size", defaultValue = "3") Integer size,
+                          @RequestParam(value = "size", defaultValue = "5") Integer size,
                           HttpServletRequest request, Model model) {
         //从session中获取user对象
         User user = (User) request.getSession().getAttribute("user");

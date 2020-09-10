@@ -20,7 +20,7 @@ public class IndexController {
     @GetMapping("/")
     public String index(
             @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
-            @RequestParam(value = "size", defaultValue = "3") Integer size,
+            @RequestParam(value = "size", defaultValue = "5") Integer size,
             String search,
             Model model) {
         //当前记录数
