@@ -2,6 +2,7 @@ package com.markloy.code_community.service.impl;
 
 import com.markloy.code_community.dto.PageDTO;
 import com.markloy.code_community.dto.QuestionDTO;
+import com.markloy.code_community.dto.QuestionSearchDTO;
 import com.markloy.code_community.exception.CustomizeException;
 import com.markloy.code_community.enums.CustomizeErrorCode;
 import com.markloy.code_community.mapper.QuestionExtMapper;
@@ -15,6 +16,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +34,19 @@ public class QuestionServiceImpl implements QuestionService {
     private UserMapper um;
 
     @Override
-    public PageDTO<QuestionDTO> findAll(Integer currentPage, Integer count, Integer size) {
+    public PageDTO<QuestionDTO> findAll(Integer currentPage, Integer count, Integer size, String search) {
         //查询所有问题
-        QuestionExample example = new QuestionExample();
-        example.setOrderByClause("GMT_CREATE DESC");
-        List<Question> question = qm.selectByExampleWithBLOBsWithRowbounds(example, new RowBounds(count, size));
+        String sear = null;
+        if (!StringUtils.isEmpty(search)) {
+            //处理search(将字符串中的空格和逗号，替换为|)
+            sear = search.replaceAll(",| |，", "|");
+        }
+
+        QuestionSearchDTO searchDTO = new QuestionSearchDTO();
+        searchDTO.setCount(count);
+        searchDTO.setSearch(sear);
+        searchDTO.setSize(size);
+        List<Question> question = qem.selectSearch(searchDTO);
         List<QuestionDTO> questionDTO = new ArrayList<>();
         for (Question que : question) {
             QuestionDTO dto = new QuestionDTO();
@@ -49,7 +59,7 @@ public class QuestionServiceImpl implements QuestionService {
         }
         PageDTO<QuestionDTO> pageDTO = new PageDTO<>();
         //分页控制计算
-        pageDTO.computer(currentPage, (int) qm.countByExample(new QuestionExample()), size);
+        pageDTO.computer(currentPage, qem.selectSearchCount(sear), size);
         pageDTO.setGeneraDTO(questionDTO);
         return pageDTO;
     }
@@ -96,7 +106,6 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public void createOrUpdate(Question question) {
-
         if (question.getId() == null) {
             //新增
             question.setGmtCreate(System.currentTimeMillis());

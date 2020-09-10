@@ -1,5 +1,6 @@
 package com.markloy.code_community.mapper;
 
+import com.markloy.code_community.dto.QuestionSearchDTO;
 import com.markloy.code_community.pojo.Question;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +14,8 @@ public interface QuestionExtMapper {
     int incCommentCount(Question question);
 
     List<Question> selectRelated(Question question);
+
+    List<Question> selectSearch(QuestionSearchDTO searchDTO);
+
+    Integer selectSearchCount(String search);
 }

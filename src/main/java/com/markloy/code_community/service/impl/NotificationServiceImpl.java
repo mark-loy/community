@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -35,6 +36,28 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void addNotification(Question question, NotificationTypeEnum typeEnum, NotificationStatusEnum statusEnum, Comment comment) {
         Notification notification = new Notification();
+        if (NotificationTypeEnum.COMMENT_TYPE.getType().equals(typeEnum.getType())) {
+            //如果二级评论回复者和一级回复者是同一个人则不创建通知
+            Comment parentComment = cm.selectByPrimaryKey(comment.getParentId());
+            if (comment.getCreator().equals(parentComment.getCreator())) {
+                return;
+            }
+            //评论回复通知评论人
+            //设置评论者（消息发送者）
+            notification.setNotifierId(comment.getCreator());
+            //设置通知者（消息接收者）
+            notification.setReceiverId(parentComment.getCreator());
+        }else {
+            //如果问题回复者和问题提问者是一个人，则不创建通知
+            if (question.getCreator().equals(comment.getCreator())) {
+                return;
+            }
+            //问题回复通知提问者
+            //设置评论者（消息发送者）
+            notification.setNotifierId(comment.getCreator());
+            //设置通知者（消息接收者）
+            notification.setReceiverId(question.getCreator());
+        }
         //设置当前毫秒数
         notification.setGmtCreate(System.currentTimeMillis());
         //设置通知类型
@@ -43,11 +66,8 @@ public class NotificationServiceImpl implements NotificationService {
         notification.setStatus(statusEnum.getStatus());
         //设置通知的评论
         notification.setParentId(question.getId());
-        //设置评论者（消息发送者）
-        notification.setNotifierId(comment.getCreator());
-        //设置通知者（消息接收者）
-        notification.setReceiverId(question.getCreator());
         nm.insertSelective(notification);
+
     }
 
     @Override

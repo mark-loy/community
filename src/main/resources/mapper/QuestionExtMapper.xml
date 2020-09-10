@@ -31,4 +31,23 @@
     select id, title from QUESTION
     where ID != #{id} and tag regexp #{tag}
   </select>
+
+  <select id="selectSearch" parameterType="com.markloy.code_community.dto.QuestionSearchDTO" resultMap="BaseResultMap">
+    select * from question
+    <where>
+      <if test="search != null">
+        and title regexp #{search}
+      </if>
+    </where>
+    order by gmt_create desc
+    limit #{count}, #{size}
+  </select>
+  <select id="selectSearchCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(*) from question
+    <where>
+      <if test="search != null">
+        and title regexp #{search}
+      </if>
+    </where>
+  </select>
 </mapper>

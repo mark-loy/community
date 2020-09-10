@@ -55,7 +55,7 @@ public class CommentServiceImpl implements CommentService {
             //查询该通知所属的问题
             Question question = qm.selectByPrimaryKey(checkComment.getParentId());
             //新增评论回复通知
-            ns.addNotification(question, NotificationTypeEnum.COMMENT_TYPE, NotificationStatusEnum.UNREAD, checkComment);
+            ns.addNotification(question, NotificationTypeEnum.COMMENT_TYPE, NotificationStatusEnum.UNREAD, comment);
         } else {
             //问题回复(问题评论数也要加一)
             Question question = qm.selectByPrimaryKey(comment.getParentId());

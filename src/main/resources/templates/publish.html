@@ -23,7 +23,7 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>发起</h2>
             <hr>
-            <form th:action="@{/publish}" method="post">
+            <form th:action="@{/publish}" method="post" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <input type="hidden" name="id" th:value="${id}">
                 <div class="form-group" >
                     <label for="title">问题标题（简单扼要）</label>
@@ -32,7 +32,7 @@
                 </div>
                 <div class="form-group" >
                     <label for="description">问题补充（请参照右侧提示）</label>
-                    <div id="question-editor">
+                    <div id="question-editor" >
                         <textarea name="description" th:text="${description}"
                                   style="display:none;" class="form-control" id="description" cols="30" rows="20">
                         </textarea>
@@ -81,6 +81,7 @@
 
 </body>
 <script type="text/javascript">
+    /*富文本编辑器设置*/
     $(function() {
         editormd("question-editor", {
             width: '100%',
@@ -89,7 +90,10 @@
             path: "/js/lib/",
             imageUpload    : true,
             imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-            imageUploadURL : "",
+            imageUploadURL : "/fileUpload",
+            watch: false,
+            emoji : true,
+            table : true,
         });
     });
 </script>
