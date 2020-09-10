@@ -5,6 +5,13 @@ github:
     secret: b209f8d0f8ec98da73bf58adf497a89ea6c99e0a
   redirect:
     uri: http://localhost:8080/callBack
+#阿里云OSS对象存储配置
+aliyun:
+  endpoint: https://oss-cn-beijing.aliyuncs.com
+  accessKeyId: LTAI4GDjoCyte61LdBT7JXJk
+  accessKeySecret: 3Z0owXyFem8BaUaZvfA3jy57jeOuuz
+  bucketName: marker-fileupload
+  filePatten: images/
 #配置数据库连接
 spring:
   datasource:
@@ -34,3 +41,4 @@ logging:
     max-size: 100MB
     #日志文件保存15天
     max-history: 15
+
