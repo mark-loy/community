@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface QuestionService {
 
-    PageDTO<QuestionDTO> findAll(Integer currentPage, Integer count, Integer size,String search);
+    PageDTO<QuestionDTO> findAll(Integer currentPage, Integer count, Integer size,String search, String tag);
 
 
     PageDTO<QuestionDTO> findByUserId(Long userId, Integer currentPage, Integer count, Integer size);

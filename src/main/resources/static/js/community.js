@@ -147,6 +147,16 @@ function selectedTag(id) {
     $('#tag').val(tag)
 }
 
+/*
+* 点击标签区域之外的元素，标签区域隐藏
+* */
+$(document).bind("click",function(e){
+    var target  = $(e.target);
+    if(target.closest("#label-tag,#tag").length === 0){
+        $("#label-tag").hide();
+    }
+})
+
 
 
 

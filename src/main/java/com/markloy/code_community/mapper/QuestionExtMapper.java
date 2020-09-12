@@ -17,5 +17,5 @@ public interface QuestionExtMapper {
 
     List<Question> selectSearch(QuestionSearchDTO searchDTO);
 
-    Integer selectSearchCount(String search);
+    Integer selectSearchCount(QuestionSearchDTO searchDTO);
 }

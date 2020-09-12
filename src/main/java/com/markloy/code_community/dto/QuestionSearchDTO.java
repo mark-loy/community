@@ -7,4 +7,5 @@ public class QuestionSearchDTO {
     private Integer count;
     private Integer size;
     private String search;
+    private String tag;
 }

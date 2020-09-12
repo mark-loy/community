@@ -8,10 +8,17 @@ github:
 #阿里云OSS对象存储配置
 aliyun:
   endpoint: https://oss-cn-beijing.aliyuncs.com
-  accessKeyId: LTAI4GDjoCyte61LdBT7JXJk
-  accessKeySecret: 3Z0owXyFem8BaUaZvfA3jy57jeOuuz
+  accessKeyId: LTAI4G9CG1Eap8nR6pjvJg9S
+  accessKeySecret: Sq6BJ8qhvmyQBsf7dvG9RM0ZzMdqbn
   bucketName: marker-fileupload
   filePatten: images/
+  expiration: 31104000000
+#热门话题配置
+hotTag:
+  #显示个数
+  capacity: 10
+  #问题评论权重比例 问题 ：评论 = 1 ：5
+  proportion: 5
 #配置数据库连接
 spring:
   datasource:
@@ -34,7 +41,6 @@ mybatis:
 #配置日志信息
 logging:
   level.root: info
-  level.com.markloy.code_community.mapper: debug
   file:
     name: logs/community.log
     #单个日志文件保存100MB数据，超出则新建一个日志文件

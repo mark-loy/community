@@ -3,6 +3,7 @@ package com.markloy.code_community.controller;
 import com.markloy.code_community.dto.FileUploadDTO;
 import com.markloy.code_community.provider.OSSProvider;
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,7 @@ import java.io.IOException;
 import java.net.URL;
 
 @Controller
-@Log4j2
+@Slf4j
 public class FileUploadController {
 
     @Autowired
@@ -32,6 +33,7 @@ public class FileUploadController {
         URL url = null;
         FileUploadDTO fileUploadDTO = new FileUploadDTO();
         try {
+            assert parameter != null;
             url = ossProvider.fileUpload(parameter);
             if (url != null) {
                 fileUploadDTO.setSuccess(1);
@@ -44,7 +46,7 @@ public class FileUploadController {
         } catch (IOException e) {
             fileUploadDTO.setSuccess(0);
             fileUploadDTO.setMessage("文件上传失败");
-            log.log(Level.INFO, "文件上传失败" + e);
+            log.info("文件上传失败", e);
         }
         return fileUploadDTO;
     }

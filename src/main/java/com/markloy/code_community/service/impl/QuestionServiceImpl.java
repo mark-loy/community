@@ -34,17 +34,17 @@ public class QuestionServiceImpl implements QuestionService {
     private UserMapper um;
 
     @Override
-    public PageDTO<QuestionDTO> findAll(Integer currentPage, Integer count, Integer size, String search) {
+    public PageDTO<QuestionDTO> findAll(Integer currentPage, Integer count, Integer size, String search, String tag) {
         //查询所有问题
-        String sear = null;
+        QuestionSearchDTO searchDTO = new QuestionSearchDTO();
         if (!StringUtils.isEmpty(search)) {
             //处理search(将字符串中的空格和逗号，替换为|)
-            sear = search.replaceAll(",| |，", "|");
+            searchDTO.setSearch(search.replaceAll(",| |，", "|"));
         }
-
-        QuestionSearchDTO searchDTO = new QuestionSearchDTO();
+        if (!StringUtils.isEmpty(tag)) {
+            searchDTO.setTag(tag);
+        }
         searchDTO.setCount(count);
-        searchDTO.setSearch(sear);
         searchDTO.setSize(size);
         List<Question> question = qem.selectSearch(searchDTO);
         List<QuestionDTO> questionDTO = new ArrayList<>();
@@ -59,7 +59,7 @@ public class QuestionServiceImpl implements QuestionService {
         }
         PageDTO<QuestionDTO> pageDTO = new PageDTO<>();
         //分页控制计算
-        pageDTO.computer(currentPage, qem.selectSearchCount(sear), size);
+        pageDTO.computer(currentPage, qem.selectSearchCount(searchDTO), size);
         pageDTO.setGeneraDTO(questionDTO);
         return pageDTO;
     }

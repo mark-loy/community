@@ -27,6 +27,8 @@ public class OSSProvider {
     private String bucketName;
     @Value("${aliyun.filePatten}")
     private String filePatten;
+    @Value("${aliyun.expiration}")
+    private Long expires;
 
     /**
      * 文件上传
@@ -42,7 +44,7 @@ public class OSSProvider {
         PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, filePatten + fileName, file.getInputStream());
         ossClient.putObject(putObjectRequest);
         //过期时间
-        Date expiration = new Date(System.currentTimeMillis() + 60 * 60 * 24 * 30);
+        Date expiration = new Date(System.currentTimeMillis() + expires);
         //获取返回的文件外网路径
         URL url = ossClient.generatePresignedUrl(bucketName, filePatten + fileName, expiration);
         ossClient.shutdown();
