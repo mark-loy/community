@@ -19,6 +19,14 @@ hotTag:
   capacity: 10
   #问题评论权重比例 问题 ：评论 = 1 ：5
   proportion: 5
+#热门问题配置
+hotQuestion:
+  #一个月的毫秒数
+  month: 2592000000
+  #一周的毫秒数
+  week: 604800000
+  #当天的毫秒数
+  day: 86400000
 #配置数据库连接
 spring:
   datasource:

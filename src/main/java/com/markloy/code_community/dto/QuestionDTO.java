@@ -2,9 +2,10 @@ package com.markloy.code_community.dto;
 
 import com.markloy.code_community.pojo.User;
 import lombok.Data;
+import org.jetbrains.annotations.NotNull;
 
 @Data
-public class QuestionDTO {
+public class QuestionDTO{
     private Long id;
     private String title;
     private String description;

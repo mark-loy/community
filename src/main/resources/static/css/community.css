@@ -34,9 +34,10 @@ a {
 
 
 .main {
-    margin: 30px 50px;
+    margin: 30px 150px;
     background-color: white;
     border-radius: 5px;
+    min-height: 950px;
 }
 
 img {
@@ -203,4 +204,83 @@ img {
 
 .hot-tag:hover {
     background-color: #0db8ea;
+}
+
+.nav-ul {
+    position:relative;
+    height: 63px;
+    padding: 25px 20px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.nav-title-h3 {
+    position: absolute;
+    top: 5px;
+    left: 5px
+}
+
+.nav-menu-li {
+    float: right;
+    font-size: 14px;
+    height: 30px;
+    padding: 0 10px;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.nav-menu-li a {
+    color: #666;
+}
+
+.nav-menu-li a:hover {
+    color: #333;
+}
+
+.nav-menu-li:hover {
+    border-bottom: 2px solid #155faa;
+}
+
+.nav-menu-active {
+    font-weight: 700;
+    border-bottom: 2px solid #155faa;
+}
+
+#hot-question {
+    display: none;
+}
+
+.hot-question-div {
+    position: relative;
+    height: 38px;
+    line-height: 38px;
+    padding: 0 20px;
+    border-bottom: 1px solid #e6e6e6;
+
+}
+
+.hot-question-ul {
+    position: absolute;
+    left: 42%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+    width: 200px;
+    height: 30px;
+}
+
+.hot-question-li {
+    float: left;
+    margin: 0 10px;
+
+}
+
+.hot-question-li a {
+    color: #666;
+}
+
+.hot-question-active {
+    font-weight: 700;
 }

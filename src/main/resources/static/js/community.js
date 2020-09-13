@@ -203,7 +203,13 @@ function addTag() {
     })
 }
 
-
+/*
+* 切换首页菜单
+* */
+function tabNavMenu(id) {
+    $("li[id^='nav-menu-']").removeClass("nav-menu-active");
+    $("#nav-menu-"+id).addClass("nav-menu-active")
+}
 
 
 

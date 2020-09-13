@@ -20,4 +20,8 @@ public interface QuestionService {
     int incViewCount(Long id);
 
     List<Question> selectRelated(QuestionDTO questionDTO);
+
+    PageDTO<QuestionDTO> findByCommentCount(Integer currentPage, int count, Integer size);
+
+    PageDTO<QuestionDTO> findHotQuestion(Integer currentPage, int count, Integer size, int day);
 }
