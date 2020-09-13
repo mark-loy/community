@@ -108,7 +108,7 @@ function showTag(id) {
 }
 
 /*切换一级标签*/
-function tabParentTag(id) {
+function tabParentTag(id, e) {
     const tagId = id.split("-")[2]
     $.get("/tabTag/"+tagId, function (data) {
         let tagContent = []
@@ -116,15 +116,32 @@ function tabParentTag(id) {
             //请求成功
             $.each(data.data.childTag, function (index, tag) {
                 tagContent.push(
-                    '<span class="publish-tag-span">' +
-                    '<span onclick="selectedTag(this.id)" id='+tag.id+' ' +
-                    'class="label label-info label-item">' +
+                    '<span class="publish-tag-span" style="cursor: pointer">' +
+                    '<span class="label label-info label-item" style="white-space: normal;" onclick="selectedTag(this.id)" id='+tag.id+'>' +
                     '<span class="glyphicon glyphicon-tags"></span>' +
                     '<span id="tag-content-'+tag.id+'" class="label-content">'+tag.tagName+'</span>' +
                     '</span>' +
                     '</span>'
                 )
             })
+            if (e.getAttribute("data-title") === "自定义标签") {
+                $.each(data.data.userTags, function (index, tag) {
+                  tagContent.push(
+                      '<span class="publish-tag-span" style="cursor: pointer">' +
+                      '<span onclick="selectedTag(this.id)" id='+tag.id+' ' +
+                      'class="label label-info label-item">' +
+                      '<span class="glyphicon glyphicon-tags"></span>' +
+                      '<span id="tag-content-'+tag.id+'" class="label-content">'+tag.tagName+'</span>' +
+                      '</span>' +
+                      '</span>')
+                })
+                tagContent.push(
+                    '<span style="cursor: pointer" onclick="showAddTag(this)">' +
+                    '<span class="glyphicon glyphicon-plus"></span>' +
+                    '<span>创建新标签</span>' +
+                    '</span>'
+                )
+            }
             $('#publish-tag-p').html(tagContent)
             /*移除之前选择的标签样式*/
             $("li[id^='tag-title-']").removeClass("active")
@@ -156,6 +173,35 @@ $(document).bind("click",function(e){
         $("#label-tag").hide();
     }
 })
+
+/*
+* 显示添加用户自定义标签窗口
+* */
+function showAddTag(options) {
+    $('#exampleModal').modal(options)
+}
+
+/*添加用户自定义标签*/
+function addTag() {
+    let tagName = $("#tag-name").val();
+    $.ajax({
+        type: "post",
+        url: "/addTag",
+        dataType: "json",
+        contentType: 'application/json;charset=UTF-8',
+        data: JSON.stringify({
+            "tagName": tagName
+        }),
+        success: function (response) {
+            $('#exampleModal').modal('hide')
+            if (response.code === 200) {
+                alert("添加成功")
+            } else {
+                alert("添加失败")
+            }
+        }
+    })
+}
 
 
 

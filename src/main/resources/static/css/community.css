@@ -177,9 +177,10 @@ img {
     box-shadow: 5px 5px 15px #999;
     background-color: white;
     display: none;
+
 }
 
-.publish-label-tag p {
+.publish-label-tag div {
     margin-top: 10px;
 }
 
@@ -189,8 +190,7 @@ img {
 
 .publish-tag-span {
     line-height: 35px;
-    word-wrap: break-word;
-    word-break: break-all;
+
 }
 
 .profile-notify-status {

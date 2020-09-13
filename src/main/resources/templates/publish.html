@@ -12,7 +12,6 @@
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/community.js"></script>
     <script src="/js/editormd.min.js"></script>
-
 </head>
 <body>
 <!--头部-->
@@ -36,22 +35,20 @@
                            autocomplete="off" class="form-control" placeholder="输入标签以,分隔">
                     <div id="label-tag" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 publish-label-tag">
                         <ul class="nav nav-pills">
-                            <li onclick="tabParentTag(this.id)"  th:id="${'tag-title-'+tagTile.getId()}" th:each="tagTile : ${tagList.getParentTag()}"
+                            <li onclick="tabParentTag(this.id,this)"  th:id="${'tag-title-'+tagTitle.getId()}"
+                                th:data-title="${tagTitle.getTagName()}" th:each="tagTitle : ${tagList.getParentTag()}"
                                 class="publish-tag-li" role="presentation" >
-                                <a href="#" th:text="${tagTile.getTagName()}"></a>
+                                <a href="#" th:text="${tagTitle.getTagName()}"></a>
                             </li>
                         </ul>
-                        <p id="publish-tag-p">
+                        <div id="publish-tag-p" style="white-space: normal" >
                             <span class="publish-tag-span" th:each="tagChild : ${tagList.getChildTag()}">
-                                <span onclick="selectedTag(this.id)"
-                                      th:id="${tagChild.getId()}"
-                                      class="label label-info label-item">
+                                <span onclick="selectedTag(this.id)" th:id="${tagChild.getId()}" class="label label-info label-item">
                                     <span class="glyphicon glyphicon-tags"></span>
-                                    <span th:id="${'tag-content-'+tagChild.getId()}" class="label-content"
-                                          th:text="${tagChild.getTagName()}"></span>
+                                    <span th:id="${'tag-content-'+tagChild.getId()}" class="label-content" th:text="${tagChild.getTagName()}"></span>
                                 </span>
                             </span>
-                        </p>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group" >
@@ -79,6 +76,8 @@
     </div>
 </div>
 
+<!--标签弹出层-->
+<div th:replace="modal :: tag-modal"></div>
 <!--footer-->
 <div th:replace="component :: footer"></div>
 </body>
@@ -99,4 +98,5 @@
         });
     });
 </script>
+
 </html>
