@@ -105,6 +105,7 @@ public class QuestionServiceImpl implements QuestionService {
         if (question == null) {
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
+
         User user = um.selectByPrimaryKey(question.getCreator());
         QuestionDTO dto = new QuestionDTO();
         BeanUtils.copyProperties(question, dto);

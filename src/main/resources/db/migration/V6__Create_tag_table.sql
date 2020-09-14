@@ -5,6 +5,6 @@ create table tag
 	type char not null,
 	gmt_create bigint,
 	gmt_modified bigint,
-	constraint TAG_PK
+	constraint tag_pk
 		primary key (id)
 );
