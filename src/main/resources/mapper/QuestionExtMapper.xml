@@ -3,33 +3,33 @@
 <mapper namespace="com.markloy.code_community.mapper.QuestionExtMapper">
 
   <resultMap id="BaseResultMap" type="com.markloy.code_community.pojo.Question">
-    <id column="ID" jdbcType="INTEGER" property="id" />
-    <result column="TITLE" jdbcType="VARCHAR" property="title" />
-    <result column="GMT_CREATE" jdbcType="BIGINT" property="gmtCreate" />
-    <result column="GMT_MODIFY" jdbcType="BIGINT" property="gmtModify" />
-    <result column="CREATOR" jdbcType="INTEGER" property="creator" />
-    <result column="COMMENT_COUNT" jdbcType="INTEGER" property="commentCount" />
-    <result column="VIEW_COUNT" jdbcType="INTEGER" property="viewCount" />
-    <result column="LIKE_COUNT" jdbcType="INTEGER" property="likeCount" />
-    <result column="TAG" jdbcType="VARCHAR" property="tag" />
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate" />
+    <result column="gmt_modify" jdbcType="BIGINT" property="gmtModify" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="comment_count" jdbcType="INTEGER" property="commentCount" />
+    <result column="view_count" jdbcType="INTEGER" property="viewCount" />
+    <result column="like_count" jdbcType="INTEGER" property="likeCount" />
+    <result column="tag" jdbcType="VARCHAR" property="tag" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.markloy.code_community.pojo.Question">
-    <result column="DESCRIPTION" jdbcType="CLOB" property="description" />
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
   </resultMap>
 
   <update id="incViewCount" parameterType="com.markloy.code_community.pojo.Question">
-    update QUESTION
-    set VIEW_COUNT = VIEW_COUNT + #{viewCount,jdbcType=INTEGER}
+    update question
+    set view_count = view_count + #{viewCount,jdbcType=INTEGER}
     where ID = #{id}
   </update>
   <update id="incCommentCount" parameterType="com.markloy.code_community.pojo.Question">
-    update QUESTION
-    set COMMENT_COUNT = COMMENT_COUNT + #{commentCount,jdbcType=INTEGER}
+    update question
+    set comment_count = comment_count + #{commentCount,jdbcType=INTEGER}
     where ID = #{id}
   </update>
   <select id="selectRelated" parameterType="com.markloy.code_community.pojo.Question" resultMap="BaseResultMap">
-    select id, title from QUESTION
-    where ID != #{id} and tag regexp #{tag}
+    select id, title from question
+    where id != #{id} and tag regexp #{tag}
   </select>
 
   <select id="selectSearch" parameterType="com.markloy.code_community.dto.QuestionSearchDTO" resultMap="BaseResultMap">
