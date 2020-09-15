@@ -21,8 +21,8 @@
 <div th:replace="component :: navbar"></div>
 
 <!--profile-->
-<div class="container-fluid main">
-    <div class="row">
+<div class="container-fluid  w-content">
+    <div class="row main">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 body-left">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <!--问题内容展示-->
@@ -114,28 +114,31 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <h3>发起人</h3>
-            <div class="media">
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object img-rounded" th:src="${question.user.getAvatarUrl()}">
-                    </a>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 body-right">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h3>发起人</h3>
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-rounded" th:src="${question.user.getAvatarUrl()}">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <span th:text="${question.user.getLoginName()}"></span>
+                        </h4>
+                        <span th:text="${question.user.getBio()}"></span>
+                    </div>
                 </div>
-                <div class="media-body">
-                    <h4 class="media-heading">
-                        <span th:text="${question.user.getLoginName()}"></span>
-                    </h4>
-                    <span th:text="${question.user.getBio()}"></span>
-                </div>
+                <hr>
+                <h3>相关问题</h3>
+                <ul class="related-ul">
+                    <li th:each="item : ${related}" class="related-li">
+                        <a class="related-a" th:href="@{'/question/'+${item.getId()}}" th:text="${item.getTitle()}"></a>
+                    </li>
+                </ul>
             </div>
-            <hr>
-            <h3>相关问题</h3>
-            <ul class="related-ul">
-                <li th:each="item : ${related}" class="related-li">
-                    <a class="related-a" th:href="@{'/question/'+${item.getId()}}" th:text="${item.getTitle()}"></a>
-                </li>
-            </ul>
+
         </div>
     </div>
 </div>

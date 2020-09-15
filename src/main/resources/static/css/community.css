@@ -2,11 +2,13 @@ body {
     background-color: #efefef;
 }
 
-.body-left {
-    border-right: 1px solid #eee;
+.w-content {
+    width: 980px;
+    margin: 0 auto;
 }
 
 .body-right {
+    min-height: 950px;
     border-left: 1px solid #eee;
 }
 
@@ -34,7 +36,7 @@ a {
 
 
 .main {
-    margin: 30px 150px;
+    margin: 20px 0;
     background-color: white;
     border-radius: 5px;
     min-height: 950px;

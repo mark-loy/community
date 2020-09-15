@@ -17,8 +17,8 @@
 <!--头部-->
 <div th:replace="component :: navbar"></div>
 
-<div class="container-fluid main">
-    <div class="row">
+<div class="container-fluid  w-content">
+    <div class="row main">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 body-left">
             <h3><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>发起</h3>
             <hr>
@@ -35,7 +35,7 @@
                            autocomplete="off" class="form-control" placeholder="输入标签以,分隔">
                     <div id="label-tag" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 publish-label-tag">
                         <ul class="nav nav-pills">
-                            <li onclick="tabParentTag(this.id,this)"  th:id="${'tag-title-'+tagTitle.getId()}"
+                            <li onclick="tabParentTag(this.id,this)" style="margin: 0"  th:id="${'tag-title-'+tagTitle.getId()}"
                                 th:data-title="${tagTitle.getTagName()}" th:each="tagTitle : ${tagList.getParentTag()}"
                                 class="publish-tag-li" role="presentation" >
                                 <a href="#" th:text="${tagTitle.getTagName()}"></a>
@@ -67,11 +67,13 @@
             </span>
             </form>
         </div>
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <h3>问题发起指南</h3>
-            <p>问题标题：请用精简的语言描述您发布的问题，不超过25个字</p>
-            <p>问题补充：请详细补充您的问题内容，确保问题清晰直观，并提供一些相关资料</p>
-            <p>选择标签：标签用逗号分隔，并不超过10个字</p>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 body-right">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                <h3>问题发起指南</h3>
+                <p>问题标题：请用精简的语言描述您发布的问题，不超过25个字</p>
+                <p>问题补充：请详细补充您的问题内容，确保问题清晰直观，并提供一些相关资料</p>
+                <p>选择标签：标签用逗号分隔，并不超过10个字</p>
+            </div>
         </div>
     </div>
 </div>
@@ -86,13 +88,13 @@
     $(function() {
         editormd("question-editor", {
             width: '100%',
-            height: '450px',
+            height: '550px',
             placeholder: "请填写问题描述...",
             path: "/js/lib/",
             imageUpload    : true,
             imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
             imageUploadURL : "/fileUpload",
-            watch: false,
+            watch: true,
             emoji : true,
             table : true,
         });

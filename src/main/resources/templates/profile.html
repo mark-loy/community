@@ -15,8 +15,8 @@
 <div th:replace="component :: navbar"></div>
 
 <!--profile-->
-<div class="container-fluid main">
-    <div class="row">
+<div class="container-fluid  w-content">
+    <div class="row main">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 body-left">
             <h3 th:text="${title}"></h3>
             <hr>
@@ -96,16 +96,18 @@
             </nav>
 
         </div>
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <div class="list-group profile-menu">
-                <a th:href="@{/profile/question}"
-                   th:class="${title=='我的问题' ? 'list-group-item active' : 'list-group-item'}">
-                    我的问题
-                </a>
-                <a th:href="@{/profile/reply}"
-                   th:class="${title=='最新回复' ? 'list-group-item active' : 'list-group-item'}">
-                    最新回复<span class="badge" th:text="${session.notificationCount}"></span>
-                </a>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 body-right">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="list-group profile-menu">
+                    <a th:href="@{/profile/question}"
+                       th:class="${title=='我的问题' ? 'list-group-item active' : 'list-group-item'}">
+                        我的问题
+                    </a>
+                    <a th:href="@{/profile/reply}"
+                       th:class="${title=='最新回复' ? 'list-group-item active' : 'list-group-item'}">
+                        最新回复<span class="badge" th:text="${session.notificationCount}"></span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

@@ -8,7 +8,7 @@
     <!--头部-->
     <div th:fragment="navbar">
         <nav class="navbar navbar-default">
-            <div class="container-fluid" style="line-height: 50px">
+            <div class="container-fluid w-content" style="line-height: 50px">
                 <div class="navbar-header" style="margin-top: 10px">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                             data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -29,7 +29,7 @@
                     </form>
                     <ul class="nav navbar-nav navbar-right">
                         <li th:if="${session.user == null}">
-                            <a href="https://github.com/login/oauth/authorize?client_id=Iv1.608c3ae1ace91189&scope=user&state=1">登录</a>
+                            <a href="https://github.com/login/oauth/authorize?client_id=Iv1.8a53e6d23108cc5e&scope=user&state=1">登录</a>
                         </li>
                         <!--发布入口-->
                         <li th:if="${session.user != null}">

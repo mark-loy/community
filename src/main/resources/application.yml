@@ -1,8 +1,8 @@
 #配置GitHub登录的app信息
 github:
   client:
-    id: Iv1.608c3ae1ace91189
-    secret: b209f8d0f8ec98da73bf58adf497a89ea6c99e0a
+    id: Iv1.8a53e6d23108cc5e
+    secret: 235ac231ef005900e9b74a255aa0af1d40e06f27
   redirect:
     uri: http://localhost:8080/callBack
 #阿里云OSS对象存储配置
