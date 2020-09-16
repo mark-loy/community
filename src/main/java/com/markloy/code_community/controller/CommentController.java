@@ -6,6 +6,7 @@ import com.markloy.code_community.dto.ResultDTO;
 import com.markloy.code_community.enums.CommentType;
 import com.markloy.code_community.enums.CustomizeErrorCode;
 import com.markloy.code_community.exception.CustomizeException;
+import com.markloy.code_community.mapper.CommentMapper;
 import com.markloy.code_community.pojo.Comment;
 import com.markloy.code_community.pojo.User;
 import com.markloy.code_community.service.CommentService;
@@ -22,6 +23,9 @@ public class CommentController {
 
     @Autowired
     private CommentService cs;
+
+    @Autowired
+    private CommentMapper cm;
 
     @PostMapping("/comment")
     @ResponseBody
@@ -51,5 +55,16 @@ public class CommentController {
     public ResultDTO<Object> selectSubComment(@PathVariable("id") Long id) {
         List<CommentListDTO> listDTOS = cs.findById(id, CommentType.COMMENT_TYPE);
         return new ResultDTO<>().successResultData(listDTOS);
+    }
+
+    @GetMapping("/commentLike/{id}")
+    public String commentLike(@PathVariable("id") Long id, HttpServletRequest request) {
+        Comment comment = cm.selectByPrimaryKey(id);
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return "redirect:/question/" + comment.getParentId().intValue();
+        }
+        int questionId = cs.incCommentLikeCount(id, user);
+        return "redirect:/question/" + questionId;
     }
 }

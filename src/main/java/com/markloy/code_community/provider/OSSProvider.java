@@ -50,6 +50,4 @@ public class OSSProvider {
         ossClient.shutdown();
         return url;
     }
-
-
 }

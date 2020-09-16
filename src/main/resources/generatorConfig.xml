@@ -39,5 +39,7 @@
         <table tableName="tag" domainObjectName="Tag"/>
         <table tableName="notification" domainObjectName="Notification"/>
         <table tableName="user_tag" domainObjectName="UserTag"/>
+        <table tableName="count_record" domainObjectName="CountRecord"/>
+        <table tableName="count_comment_record" domainObjectName="CountCommentRecord"/>
     </context>
 </generatorConfiguration>

@@ -43,7 +43,7 @@ a {
 }
 
 img {
-    width: 460px;
+    width: auto;
 }
 
 #form-submit {
@@ -135,7 +135,7 @@ img {
 .label-style {
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
-    margin: 10px 0;
+    margin: 0;
     padding: 10px 0;
     word-wrap: break-word;
     word-break: break-all;

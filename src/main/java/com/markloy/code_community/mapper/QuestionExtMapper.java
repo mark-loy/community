@@ -18,4 +18,6 @@ public interface QuestionExtMapper {
     List<Question> selectSearch(QuestionSearchDTO searchDTO);
 
     Integer selectSearchCount(QuestionSearchDTO searchDTO);
+
+    int incLikeCount(Question question);
 }

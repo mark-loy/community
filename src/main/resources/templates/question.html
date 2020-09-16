@@ -45,11 +45,19 @@
                     </span>
                 </p>
                 <!--编辑功能-->
-                <p th:if="${session.user!=null and session.user.getId()==question.getUser().getId()}">
-                    <a th:href="@{'/publish/'+${question.getId()}}" class="community-link">
-                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>编辑
-                    </a>
-                </p>
+                <ul style="display: flex;">
+                    <li style="margin-right: 15px;">
+                        <a th:href="@{'/likeCount/'+${question.getId()}}" class="community-link" style="font-size: 16px">
+                            <!--问题点赞icon-->
+                            <span class="glyphicon glyphicon-thumbs-up icon " th:text="${question.getLikeCount()}"></span>
+                        </a>
+                    </li>
+                    <li th:if="${session.user!=null and session.user.getId()==question.getUser().getId()}">
+                        <a th:href="@{'/publish/'+${question.getId()}}" class="community-link">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>编辑
+                        </a>
+                    </li>
+                </ul>
             </div>
             <!--回复列表-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -67,17 +75,26 @@
                                 <span th:text="${comment.user.getLoginName()}"></span>
                             </h5>
                             <p class="comment-answer" th:text="${comment.getContent()}"></p>
-                            <p class="comment-menu">
-                                <span class="glyphicon glyphicon-hand-right icon "></span>
-                                <span class="glyphicon glyphicon-comment icon" th:id="${comment.getId()}"
-                                      onclick="subComment(this.id)" th:text="${comment.getChildCommentCount()}"></span>
-                                <span class="comment-date"
-                                      th:text="${#dates.format(comment.getGmtCreate(), 'yyyy-MM-dd HH:ss')}"></span>
-                            </p>
+                            <ul class="comment-menu" style="display: flex;position: relative">
+                                <li style="margin-right: 10px">
+                                    <a th:href="@{'/commentLike/'+${comment.getId()}}">
+                                        <!--回复点赞icon-->
+                                        <span class="glyphicon glyphicon-thumbs-up" th:text="${comment.getLikeCount()}"></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <!--评论icon-->
+                                    <span class="glyphicon glyphicon-comment icon" th:id="${comment.getId()}"
+                                          onclick="subComment(this.id)" th:text="${comment.getChildCommentCount()}"></span>
+                                </li>
+                                <li style="position: absolute;right: 5px">
+                                    <span class="comment-date"
+                                          th:text="${#dates.format(comment.getGmtCreate(), 'yyyy-MM-dd HH:ss')}"></span>
+                                </li>
+                            </ul>
                             <!--二级评论-->
                             <div class="collapse sub-comment-style" th:id="${'collapse'+comment.getId()}">
                                 <div th:id="${'comment-list'+ comment.getId()}">
-
                                 </div>
                                 <input th:id="${'sub-comment-content-'+ comment.getId()}" class="form-control comment-content"
                                        placeholder="写下你的回复..." >

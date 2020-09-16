@@ -5,12 +5,11 @@ import com.markloy.code_community.dto.QuestionDTO;
 import com.markloy.code_community.dto.QuestionSearchDTO;
 import com.markloy.code_community.exception.CustomizeException;
 import com.markloy.code_community.enums.CustomizeErrorCode;
+import com.markloy.code_community.mapper.CountRecordMapper;
 import com.markloy.code_community.mapper.QuestionExtMapper;
 import com.markloy.code_community.mapper.QuestionMapper;
 import com.markloy.code_community.mapper.UserMapper;
-import com.markloy.code_community.pojo.Question;
-import com.markloy.code_community.pojo.QuestionExample;
-import com.markloy.code_community.pojo.User;
+import com.markloy.code_community.pojo.*;
 import com.markloy.code_community.service.QuestionService;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
@@ -22,7 +21,7 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.PriorityQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
@@ -35,6 +34,9 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Autowired
     private UserMapper um;
+
+    @Autowired
+    private CountRecordMapper crm;
 
     @Value("${hotQuestion.month}")
     private Long hotQuestionMonth;
@@ -105,7 +107,6 @@ public class QuestionServiceImpl implements QuestionService {
         if (question == null) {
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
-
         User user = um.selectByPrimaryKey(question.getCreator());
         QuestionDTO dto = new QuestionDTO();
         BeanUtils.copyProperties(question, dto);
@@ -133,11 +134,61 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public int incViewCount(Long id) {
-        Question question = new Question();
-        question.setId(id);
-        question.setViewCount(1);
-        return qem.incViewCount(question);
+    public int incViewCount(Long id, User user) {
+        if (user == null) {
+            return 0;
+        }
+        Question selectQuestion = qm.selectByPrimaryKey(id);
+        Long creator = selectQuestion.getCreator();
+        if (creator.equals(user.getId())) {
+            //当前登录用户浏览，不增加数据库数据
+            return 0;
+        }
+        CountRecordExample recordExample = new CountRecordExample();
+        recordExample.createCriteria().andUserIdEqualTo(user.getId()).andQuestionIdEqualTo(selectQuestion.getId());
+        List<CountRecord> countRecords = crm.selectByExample(recordExample);
+        if (countRecords.size() == 0) {
+            //添加浏览状态
+            CountRecord record = new CountRecord();
+            record.setGmtCreate(System.currentTimeMillis());
+            record.setViewCheck(1);
+            record.setQuestionId(selectQuestion.getId());
+            record.setUserId(user.getId());
+            crm.insertSelective(record);
+
+            //增加浏览数
+            Question question = new Question();
+            question.setId(id);
+            question.setViewCount(1);
+            return qem.incViewCount(question);
+        }
+        return 0;
+    }
+
+    @Override
+    public int incLikeCount(Long id, User user) {
+        Question selectQuestion = qm.selectByPrimaryKey(id);
+        Long creator = selectQuestion.getCreator();
+        if (user.getId().equals(creator)) {
+            //当前登录用户点击点赞icon，不增加数据库数据
+            return 0;
+        }
+        CountRecordExample recordExample = new CountRecordExample();
+        recordExample.createCriteria().andUserIdEqualTo(user.getId()).andQuestionIdEqualTo(selectQuestion.getId());
+        List<CountRecord> countRecords = crm.selectByExample(recordExample);
+        if (countRecords.get(0).getLikeCheck() == 0) {
+            //该用户，当前问题未点赞，修改点赞状态
+            CountRecord record = new CountRecord();
+            record.setLikeCheck(1);
+            record.setId(countRecords.get(0).getId());
+            crm.updateByPrimaryKeySelective(record);
+            //增加问题点赞数
+            Question question = new Question();
+            question.setId(id);
+            question.setLikeCount(1);
+            return  qem.incLikeCount(question);
+        }
+        return 0;
     }
 
     @Override

@@ -36,6 +36,12 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private NotificationService ns;
 
+    @Autowired
+    private CountCommentRecordMapper ccrm;
+
+    @Autowired
+    private CommentExtMapper cem;
+
     @Override
     @Transactional
     public void insertComment(Comment comment) {
@@ -92,5 +98,40 @@ public class CommentServiceImpl implements CommentService {
             listDTOS.add(commentListDTO);
         }
         return listDTOS;
+    }
+
+    @Override
+    public int incCommentLikeCount(Long id, User user) {
+        Comment comment = cm.selectByPrimaryKey(id);
+        if (comment.getCreator().equals(user.getId())) {
+            //当前登录用户不能点赞自己评论,返回questionId
+            return comment.getParentId().intValue();
+        }
+        CountCommentRecordExample commentRecordExample = new CountCommentRecordExample();
+        commentRecordExample.createCriteria()
+                .andUserIdEqualTo(user.getId())
+                .andQuestionIdEqualTo(comment.getParentId())
+                .andCommentIdEqualTo(id);
+        List<CountCommentRecord> countCommentRecords = ccrm.selectByExample(commentRecordExample);
+        if (countCommentRecords.size() == 0) {
+            //当前登录用户，对当前问题，当前点击的评论未点赞
+            CountCommentRecord record = new CountCommentRecord();
+            record.setUserId(user.getId());
+            record.setQuestionId(comment.getParentId());
+            record.setCommentId(id);
+            record.setGmtCreate(System.currentTimeMillis());
+            record.setCommentLikeCheck(1);
+            ccrm.insertSelective(record);
+            //增加点赞数
+            Comment recordCommentLike = new Comment();
+            recordCommentLike.setId(id);
+            recordCommentLike.setLikeCount(1);
+            int resultId = cem.incCommentLikeCount(recordCommentLike);
+            if (resultId > 0) {
+                //添加成功
+                return comment.getParentId().intValue();
+            }
+        }
+        return comment.getParentId().intValue();
     }
 }

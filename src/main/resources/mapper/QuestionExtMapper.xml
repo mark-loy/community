@@ -20,12 +20,18 @@
   <update id="incViewCount" parameterType="com.markloy.code_community.pojo.Question">
     update question
     set view_count = view_count + #{viewCount,jdbcType=INTEGER}
-    where ID = #{id}
+    where id = #{id}
+  </update>
+
+  <update id="incLikeCount" parameterType="com.markloy.code_community.pojo.Question">
+    update question
+    set like_count = like_count + #{likeCount,jdbcType=INTEGER}
+    where id = #{id}
   </update>
   <update id="incCommentCount" parameterType="com.markloy.code_community.pojo.Question">
     update question
     set comment_count = comment_count + #{commentCount,jdbcType=INTEGER}
-    where ID = #{id}
+    where id = #{id}
   </update>
   <select id="selectRelated" parameterType="com.markloy.code_community.pojo.Question" resultMap="BaseResultMap">
     select id, title from question
