@@ -14,6 +14,29 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>2.3.0.RELEASE</spring-boot.version>
     </properties>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <db.driver>com.mysql.jdbc.Driver</db.driver>
+                <db.url>jdbc:mysql://192.168.174.130:3306/community?serverTimezone=UTC&amp;characterEncoding=utf8</db.url>
+                <db.user>root</db.user>
+                <db.password>123456</db.password>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <db.driver>com.mysql.jdbc.Driver</db.driver>
+                <db.url>jdbc:mysql://172.26.71.138:3306/community?serverTimezone=UTC&amp;characterEncoding=utf8</db.url>
+                <db.user>root</db.user>
+                <db.password>123456</db.password>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
 
@@ -125,10 +148,10 @@
                     </dependency>
                 </dependencies>
                 <configuration>
-                    <driver>com.mysql.jdbc.Driver</driver>
-                    <url>jdbc:mysql://192.168.174.130:3306/community?serverTimezone=UTC&amp;characterEncoding=utf8</url>
-                    <user>root</user>
-                    <password>123456</password>
+                    <driver>${db.driver}</driver>
+                    <url>${db.url}</url>
+                    <user>${db.user}</user>
+                    <password>${db.password}</password>
                 </configuration>
             </plugin>
             <plugin>
