@@ -107,7 +107,7 @@
                 </div>
                 <!--回复内容-->
                 <div th:if="${session.user == null}">
-                    <a href="https://github.com/login/oauth/authorize?client_id=Iv1.608c3ae1ace91189&scope=user&state=1">登录</a>
+                    <a href="javascript:void(0)" onclick="showLoginWay(this)">登录</a>
                     后发表评论
                 </div>
                 <div class="comment-submit" th:if="${session.user != null}">
@@ -159,6 +159,9 @@
         </div>
     </div>
 </div>
+
+<!--登录弹出层-->
+<div th:replace="modal :: login-modal"></div>
 
 <!--footer-->
 <div th:replace="component :: footer"></div>
