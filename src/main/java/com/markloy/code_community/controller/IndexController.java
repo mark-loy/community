@@ -6,6 +6,7 @@ import com.markloy.code_community.dto.TagPriorityDTO;
 import com.markloy.code_community.schedule.HotTagSchedule;
 import com.markloy.code_community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -30,7 +31,7 @@ public class IndexController {
             @RequestParam(value = "size", defaultValue = "10") Integer size,
             @RequestParam(value = "id", defaultValue = "0") Integer id,
             @RequestParam(value = "hotId", defaultValue = "1") Integer hotId,
-            String search, String tag,
+            String search, String tag, HttpServletRequest request,
             Model model) {
         //当前记录数
         int count = (currentPage - 1)*size;
@@ -57,6 +58,7 @@ public class IndexController {
         //热门话题
         model.addAttribute("tags", hotTagSchedule.getTagPriorityDTOS());
         model.addAttribute("tag", tag);
+
         return "index";
     }
 

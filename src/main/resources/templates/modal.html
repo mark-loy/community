@@ -42,7 +42,7 @@
                     <p>目前码客支持的第三方登录</p>
                     <ul>
                         <li style="text-align: center">
-                            <a href="https://github.com/login/oauth/authorize?client_id=Iv1.8a53e6d23108cc5e&scope=user&state=1">
+                            <a th:href="@{'https://github.com/login/oauth/authorize'(client_id=${#servletContext.getAttribute('client_id')},scope='user',state=1)}">
                                 <img src="/images/login/github.png" style="width: 48px">
                             </a>
                         </li>

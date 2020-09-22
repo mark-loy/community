@@ -7,6 +7,7 @@ import com.markloy.code_community.pojo.NotificationExample;
 import com.markloy.code_community.pojo.User;
 import com.markloy.code_community.pojo.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -24,8 +25,14 @@ public class Interceptor implements HandlerInterceptor {
     @Autowired
     private NotificationMapper nm;
 
+    @Value("${github.client.id}")
+    private String githubClientId;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        //设置用户登陆的client_id
+        request.getServletContext().setAttribute("client_id", githubClientId);
+
         //获取浏览器cookie数组
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length != 0) {
