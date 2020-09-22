@@ -30,6 +30,32 @@
     </div>
 </div>
 
+<div th:fragment="login-modal">
+    <div class="modal fade" id="loginExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="loginExampleModalLabel">登录</h4>
+                </div>
+                <div class="modal-body">
+                    <p>目前码客支持的第三方登录</p>
+                    <ul>
+                        <li style="text-align: center">
+                            <a href="https://github.com/login/oauth/authorize?client_id=Iv1.8a53e6d23108cc5e&scope=user&state=1">
+                                <img src="images/login/github.png" style="width: 48px">
+                            </a>
+                        </li>
+                        <li></li>
+                    </ul>
+                    <p>登录即表示同意<a href="#">用户协议</a>、<a href="#">隐私政策</a></p>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

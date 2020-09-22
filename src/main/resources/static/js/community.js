@@ -211,5 +211,12 @@ function tabNavMenu(id) {
     $("#nav-menu-"+id).addClass("nav-menu-active")
 }
 
+/*
+* 登录弹出层展示
+* */
+function showLoginWay(options) {
+    $('#loginExampleModal').modal(options)
+}
+
 
 

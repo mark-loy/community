@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/community.js"></script>
 </head>
 <body>
     <!--头部-->
@@ -29,7 +31,7 @@
                     </form>
                     <ul class="nav navbar-nav navbar-right">
                         <li th:if="${session.user == null}">
-                            <a href="https://github.com/login/oauth/authorize?client_id=Iv1.8a53e6d23108cc5e&scope=user&state=1">登录</a>
+                            <span class="glyphicon glyphicon-user" style="cursor: pointer" onclick="showLoginWay(this)">登录</span>
                         </li>
                         <!--发布入口-->
                         <li th:if="${session.user != null}">
