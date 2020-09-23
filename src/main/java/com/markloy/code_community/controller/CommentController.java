@@ -58,13 +58,17 @@ public class CommentController {
     }
 
     @GetMapping("/commentLike/{id}")
-    public String commentLike(@PathVariable("id") Long id, HttpServletRequest request) {
-        Comment comment = cm.selectByPrimaryKey(id);
+    @ResponseBody
+    public ResultDTO<Object> commentLike(@PathVariable("id") Long id, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
-            return "redirect:/question/" + comment.getParentId().intValue();
+            return new ResultDTO<>().errorResult(CustomizeErrorCode.NO_LOGIN);
         }
-        int questionId = cs.incCommentLikeCount(id, user);
-        return "redirect:/question/" + questionId;
+        int count = cs.incCommentLikeCount(id, user);
+        if (count > 0) {
+            Comment comment = cm.selectByPrimaryKey(id);
+            return new ResultDTO<>().successResultData(comment);
+        }
+        return new ResultDTO<>().errorResult(CustomizeErrorCode.ADD_LIKE_COUNT_FAIL);
     }
 }

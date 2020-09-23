@@ -2,6 +2,7 @@ package com.markloy.code_community.controller;
 
 import com.markloy.code_community.dto.CommentListDTO;
 import com.markloy.code_community.dto.QuestionDTO;
+import com.markloy.code_community.dto.ResultDTO;
 import com.markloy.code_community.enums.CommentType;
 import com.markloy.code_community.enums.CustomizeErrorCode;
 import com.markloy.code_community.exception.CustomizeException;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -27,6 +29,9 @@ public class QuestionController {
 
     @Autowired
     private CommentService cs;
+
+    @Autowired
+    private QuestionMapper qm;
 
 
     @GetMapping("/question/{id}")
@@ -47,15 +52,22 @@ public class QuestionController {
     }
 
     @GetMapping("/likeCount/{id}")
-    public String likeCount(@PathVariable("id") Long id, HttpServletRequest request) {
+    @ResponseBody
+    public ResultDTO<Object> likeCount(@PathVariable("id") Long id, HttpServletRequest request) {
 
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
-            return "redirect:/question/"+id;
+            return new ResultDTO<>().errorResult(CustomizeErrorCode.NO_LOGIN);
         }
-        qs.incLikeCount(id, user);
-
-        return "redirect:/question/"+id;
+        int count = qs.incLikeCount(id, user);
+        if (count == 0) {
+            //增加点赞数失败
+            return new ResultDTO<>().errorResult(CustomizeErrorCode.ADD_LIKE_COUNT_FAIL);
+        } else {
+            //增加点赞数成功，查询该问题的点赞数
+            Question question = qm.selectByPrimaryKey(id);
+            return new ResultDTO<>().successResultData(question);
+        }
     }
 
 }

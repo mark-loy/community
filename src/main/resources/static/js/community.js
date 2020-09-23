@@ -218,5 +218,23 @@ function showLoginWay(options) {
     $('#loginExampleModal').modal(options)
 }
 
+function addLikeCount(id, type) {
+    let path = '/likeCount/' + id;
+    if (type === 'comment') {
+        path = '/commentLike/' + id
+    }
+    console.log(path);
+    $.get(path, function (response) {
+        console.log(response);
+        if (response.data != null) {
+            if (type === 'comment') {
+                $('#commentLikeCount').html(response.data.likeCount)
+            } else {
+                $('#questionLikeCount').html(response.data.likeCount)
+            }
+        }
+    })
+}
+
 
 

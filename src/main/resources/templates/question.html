@@ -47,9 +47,9 @@
                 <!--编辑功能-->
                 <ul style="display: flex;">
                     <li style="margin-right: 15px;">
-                        <a th:href="@{'/likeCount/'+${question.getId()}}" class="community-link" style="font-size: 16px">
+                        <a href="javascript:void(0)" th:id="${question.getId()}" onclick="addLikeCount(this.id, 'question')" class="community-link" style="font-size: 16px">
                             <!--问题点赞icon-->
-                            <span class="glyphicon glyphicon-thumbs-up icon " th:text="${question.getLikeCount()}"></span>
+                            <span id="questionLikeCount" class="glyphicon glyphicon-thumbs-up icon " th:text="${question.getLikeCount()}"></span>
                         </a>
                     </li>
                     <li th:if="${session.user!=null and session.user.getId()==question.getUser().getId()}">
@@ -77,9 +77,9 @@
                             <p class="comment-answer" th:text="${comment.getContent()}"></p>
                             <ul class="comment-menu" style="display: flex;position: relative">
                                 <li style="margin-right: 10px">
-                                    <a th:href="@{'/commentLike/'+${comment.getId()}}">
+                                    <a href="javascript:void(0)" th:id="${comment.getId()}" onclick="addLikeCount(this.id, 'comment')">
                                         <!--回复点赞icon-->
-                                        <span class="glyphicon glyphicon-thumbs-up" th:text="${comment.getLikeCount()}"></span>
+                                        <span id="commentLikeCount" class="glyphicon glyphicon-thumbs-up" th:text="${comment.getLikeCount()}"></span>
                                     </a>
                                 </li>
                                 <li>

@@ -105,7 +105,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = cm.selectByPrimaryKey(id);
         if (comment.getCreator().equals(user.getId())) {
             //当前登录用户不能点赞自己评论,返回questionId
-            return comment.getParentId().intValue();
+            return 0;
         }
         CountCommentRecordExample commentRecordExample = new CountCommentRecordExample();
         commentRecordExample.createCriteria()
@@ -129,9 +129,11 @@ public class CommentServiceImpl implements CommentService {
             int resultId = cem.incCommentLikeCount(recordCommentLike);
             if (resultId > 0) {
                 //添加成功
-                return comment.getParentId().intValue();
+                return resultId;
+            } else {
+                return 0;
             }
         }
-        return comment.getParentId().intValue();
+        return 0;
     }
 }

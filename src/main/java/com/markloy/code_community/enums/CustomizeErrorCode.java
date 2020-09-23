@@ -6,7 +6,8 @@ public enum CustomizeErrorCode implements IErrorCode {
     SYS_ERROR(2003, "系统异常"),
     PARAM_ERROR(2004,"参数异常"),
     COMMENT_NOT_FOUND(2005, "查找的评论不存在"),
-    COMMENT_CONTENT_NOT_EMPTY(2006, "评论内容不能为空");
+    COMMENT_CONTENT_NOT_EMPTY(2006, "评论内容不能为空"),
+    ADD_LIKE_COUNT_FAIL(2007, "增加点赞数失败");
 
     @Override
     public Integer getCode() {
